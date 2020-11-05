@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <fstream>
 
 #include "Framework.h"
 #include "glm/glm.hpp"
@@ -14,7 +15,7 @@ class my_sprite
 public:
 	Sprite* texture;
 	glm::ivec2 size;
-	glm::vec2 center;
+	glm::ivec2 center;
 	glm::ivec2 box_template[4];
 
 	void load_sprite(std::string);
@@ -26,7 +27,7 @@ class creature
 public:
 	my_sprite spr;
 	glm::vec2 position;
-
+protected:
 	input& inp = input::instance();
 	settings& set = settings::instance();
 };
@@ -47,11 +48,18 @@ public:
 	Sprite* x;
 	Sprite* y;
 	char** world_matrix;
+	char** passage_matrix;
 
 	player pl;
 
-	glm::ivec2 camera_position{ 0, 0 };
+	glm::ivec2 camera_position;
+
+	void update_camera_position();
+	bool load_world(std::string);
 private:
 	world() = default;
+
+	input& inp = input::instance();
+	settings& set = settings::instance();
 };
 

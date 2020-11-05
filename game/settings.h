@@ -13,9 +13,11 @@ public:
 	bool fullscreen{ false };
 
 	//розмір світу
-	glm::ivec2 world_size{ 8, 8 };
+	glm::ivec2 world_size{ 32, 32 };
 	//розмір блоку
 	glm::ivec2 block_size{ 64, 64 };
+	//піксельний розмір світу
+	glm::ivec2 pixel_world_size{ 2048, 2048 };
 
 	float player_speed{ 1000 };
 private:

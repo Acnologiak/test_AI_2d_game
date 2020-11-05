@@ -13,6 +13,11 @@ bool MyFramework::Init()
 	my_world.y = createSprite("sprites/1.png");
 	my_world.pl.spr.load_sprite("sprites/player.png");
 
+	if (my_world.load_world("worlds/test.txt") == false)
+	{
+		return false;
+	}
+
 	my_world.pl.position = glm::vec2{ 0, 0 };
 
 	my_world.world_matrix = new char* [set.world_size.x];
@@ -44,6 +49,7 @@ bool MyFramework::Tick()
 {
 	update_alpha();
 	my_world.pl.update_player_position(alpha);
+	my_world.update_camera_position();
 
 	for (int i = 0; i < set.world_size.x; i++)
 	{
@@ -51,15 +57,15 @@ bool MyFramework::Tick()
 		{
 			if (my_world.world_matrix[i][j] == 1)
 			{
-				drawSprite(my_world.y, i * set.block_size.x, j * set.block_size.y);
+				drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
 			}
 			else
 			{
-				drawSprite(my_world.x, i * set.block_size.x, j * set.block_size.y);
+				drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
 			}
 		}
 	}
-	drawSprite(my_world.pl.spr.texture, my_world.pl.position.x, my_world.pl.position.y);
+	drawSprite(my_world.pl.spr.texture, my_world.pl.position.x + my_world.camera_position.x, my_world.pl.position.y + +my_world.camera_position.y);
 	return false;
 }
 
