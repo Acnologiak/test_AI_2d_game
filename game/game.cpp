@@ -18,24 +18,20 @@ bool MyFramework::Init()
 		return false;
 	}
 
-	my_world.pl.position = glm::vec2{ 0, 0 };
-
-	my_world.world_matrix = new char* [set.world_size.x];
+	//заданн€ позиц≥њ гравц€
 	for (int i = 0; i < set.world_size.x; i++)
 	{
-		my_world.world_matrix[i] = new char[set.world_size.y];
 		for (int j = 0; j < set.world_size.y; j++)
 		{
-			if (i == 0 or j == 0 or i == set.world_size.x - 1 or j == set.world_size.y - 1)
+			if (my_world.passage_matrix[j][i] == 2)
 			{
-				my_world.world_matrix[i][j] = 1;
-			}
-			else
-			{
-				my_world.world_matrix[i][j] = 0;
+				my_world.pl.position.x = i * set.block_size.x + set.block_size.x / 2 - my_world.pl.spr.center.x;
+				my_world.pl.position.y = j * set.block_size.y + set.block_size.y / 2 - my_world.pl.spr.center.y;
 			}
 		}
 	}
+
+
 
 	return true;
 }

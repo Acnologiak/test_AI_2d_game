@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include "Framework.h"
 #include "world.h"
 #include "settings.h"

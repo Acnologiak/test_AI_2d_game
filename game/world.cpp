@@ -106,18 +106,54 @@ void world::update_camera_position()
 
 bool world::load_world(std::string name)
 {
+	std::string s;
 	std::ifstream file(name);
 	if (!file.is_open())
 	{
 		return false;
 	}
+	
+	//зчитання розміру світу
+	file >> s;
+	set.world_size.x = atoi(s.c_str());
+	set.pixel_world_size.x = set.world_size.x * set.block_size.x;
+	file >> s;
+	set.world_size.y = atoi(s.c_str());
+	set.pixel_world_size.y = set.world_size.y * set.block_size.y;
 
-	std::string s;
-	while (file)
+	//створення матриць для заповнення світу
+	passage_matrix = new char* [set.world_size.x];
+	for (int i = 0; i < set.world_size.x; i++)
+	{
+		passage_matrix[i] = new char[set.world_size.y];
+	}
+	world_matrix = new char* [set.world_size.x];
+	for (int i = 0; i < set.world_size.x; i++)
+	{
+		world_matrix[i] = new char[set.world_size.y];
+	}
+	
+	//зчитання світу
+	char ch[1];
+	for (int i = 0; i < set.world_size.x; i++)
 	{
 		file >> s;
-		std::cout << s << std::endl;
+		for (int j = 0; j < set.world_size.y; j++)
+		{
+			ch[0] = (char)s[j];
+			passage_matrix[j][i] = atoi(ch);
+		}
+	}
+	for (int i = 0; i < set.world_size.x; i++)
+	{
+		file >> s;
+		for (int j = 0; j < set.world_size.y; j++)
+		{
+			ch[0] = (char)s[j];
+			world_matrix[j][i] = atoi(ch);
+		}
 	}
 
+	file.close();
 	return true;
 }
