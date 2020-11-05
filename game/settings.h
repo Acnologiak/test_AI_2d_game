@@ -19,7 +19,11 @@ public:
 	//п≥ксельний розм≥р св≥ту
 	glm::ivec2 pixel_world_size{ 0, 0 };
 
+
+	//швидк≥сть гравц€
 	float player_speed{ 1000 };
+	//туман
+	bool fog{ true };
 private:
 	settings() = default;
 };

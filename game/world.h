@@ -27,6 +27,9 @@ class creature
 public:
 	my_sprite spr;
 	glm::vec2 position;
+	bool** visible_area;
+
+	void update_visible_area();
 protected:
 	input& inp = input::instance();
 	settings& set = settings::instance();
