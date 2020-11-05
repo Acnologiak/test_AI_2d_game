@@ -23,7 +23,9 @@ public:
 	//швидк≥сть гравц€
 	float player_speed{ 1000 };
 	//туман
-	bool fog{ true };
+	bool fog{ false };
+	//видимий рад≥ус
+	int r_visble_area{ 5 };
 private:
 	settings() = default;
 };

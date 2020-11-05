@@ -11,6 +11,7 @@ bool MyFramework::Init()
 {
 	my_world.x = createSprite("sprites/0.png");
 	my_world.y = createSprite("sprites/1.png");
+	my_world.black = createSprite("sprites/black.png");
 	my_world.pl.spr.load_sprite("sprites/player.png");
 
 	if (my_world.load_world("worlds/test.txt") == false)
@@ -46,21 +47,50 @@ bool MyFramework::Tick()
 	update_alpha();
 	my_world.pl.update_player_position(alpha);
 	my_world.update_camera_position();
+	my_world.pl.update_visible_area();
 
-	for (int i = 0; i < set.world_size.x; i++)
+	if (set.fog == true)
 	{
-		for (int j = 0; j < set.world_size.y; j++)
+		for (int i = 0; i < set.world_size.x; i++)
 		{
-			if (my_world.world_matrix[i][j] == 1)
+			for (int j = 0; j < set.world_size.y; j++)
 			{
-				drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-			}
-			else
-			{
-				drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+				if (my_world.pl.visible_area[i][j] == true)
+				{
+					if (my_world.world_matrix[i][j] == 1)
+					{
+						drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+					}
+					else
+					{
+						drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+					}
+				}
+				else
+				{
+					drawSprite(my_world.black, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+				}
 			}
 		}
 	}
+	else
+	{
+		for (int i = 0; i < set.world_size.x; i++)
+		{
+			for (int j = 0; j < set.world_size.y; j++)
+			{
+				if (my_world.world_matrix[i][j] == 1)
+				{
+					drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+				}
+				else
+				{
+					drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+				}
+			}
+		}
+	}
+	
 	drawSprite(my_world.pl.spr.texture, my_world.pl.position.x + my_world.camera_position.x, my_world.pl.position.y + +my_world.camera_position.y);
 	return false;
 }

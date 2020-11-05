@@ -157,3 +157,31 @@ bool world::load_world(std::string name)
 	file.close();
 	return true;
 }
+
+void creature::update_visible_area()
+{
+	if (visible_area == nullptr)
+	{
+		visible_area = new bool* [set.world_size.x];
+		for (int i = 0; i < set.world_size.x; i++)
+		{
+			visible_area[i] = new bool[set.world_size.y];
+		}
+	}
+	
+	glm::vec2 c{ position.x / set.block_size.x, position.y / set.block_size.y};
+	for (int i = 0; i < set.world_size.x; i++)
+	{
+		for (int j = 0; j < set.world_size.y; j++)
+		{
+			if (pow(pow((float)i - c.x, 2) + pow((float)j - c.y, 2), 0.5) < set.r_visble_area)
+			{
+				visible_area[i][j] = true;
+			}
+			else
+			{
+				visible_area[i][j] = false;
+			}
+		}
+	}
+}

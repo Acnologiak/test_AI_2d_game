@@ -50,6 +50,7 @@ public:
 
 	Sprite* x;
 	Sprite* y;
+	Sprite* black;
 	char** world_matrix;
 	char** passage_matrix;
 
