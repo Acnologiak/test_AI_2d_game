@@ -13,6 +13,7 @@ bool MyFramework::Init()
 	my_world.y = createSprite("sprites/1.png");
 	my_world.black = createSprite("sprites/black.png");
 
+	//загрузка світу
 	if (my_world.load_world("worlds/test.txt") == false)
 	{
 		return false;
@@ -27,25 +28,23 @@ bool MyFramework::Init()
 			{
 				creature c;
 				c.spr.load_sprite("sprites/team1.png");
+				c.team = 0;
 				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
 				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
-				my_world.team1.emplace_back(c);
-
-
-				//my_world.pl.position.x = i * set.block_size.x + set.block_size.x / 2 - my_world.pl.spr.center.x;
-				//my_world.pl.position.y = j * set.block_size.y + set.block_size.y / 2 - my_world.pl.spr.center.y;
+				my_world.players.emplace_back(c);
 			}
 			else if (my_world.passage_matrix[j][i] == 3)
 			{
 				creature c;
 				c.spr.load_sprite("sprites/team2.png");
+				c.team = 1;
 				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
 				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
-				my_world.team1.emplace_back(c);
+				my_world.players.emplace_back(c);
 			}
 		}
 	}
-	my_world.pl = &(my_world.team1[0]);
+	my_world.pl = &(my_world.players[0]);
 
 
 
@@ -168,11 +167,7 @@ void MyFramework::update_alpha()
 
 void MyFramework::draw_players()
 {
-	for (const auto& i : my_world.team1)
-	{
-		drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x, i.position.y + my_world.camera_position.y);
-	}
-	for (const auto& i : my_world.team2)
+	for (const auto& i : my_world.players)
 	{
 		drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x, i.position.y + my_world.camera_position.y);
 	}

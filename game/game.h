@@ -31,8 +31,10 @@ private:
 	//час між кадрами
 	float alpha = 0;
 
+	//оновлення часу між кадрами
 	void update_alpha();
 
+	//відображення світу
 	void draw_players();
 	void draw_world();
 	void draw_fog();

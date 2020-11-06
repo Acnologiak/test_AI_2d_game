@@ -2,17 +2,6 @@
 
 #include <iostream>
 
-//функція нормалізування
-void n_normalize(glm::vec2& p)
-{
-	float f = sqrt(p.x * p.x + p.y * p.y);
-	if (f != 0)
-	{
-		p.x = p.x / f;
-		p.y = p.y / f;
-	}
-}
-
 void my_sprite::load_sprite(std::string s)
 {
 	texture = createSprite(s.c_str());
@@ -41,6 +30,8 @@ world& world::instance()
 
 void world::update_player_position(float alpha)
 {
+
+
 	glm::vec2 p{ 0, 0 };
 	if (inp.keyboard_up == true)
 	{
@@ -58,8 +49,7 @@ void world::update_player_position(float alpha)
 	{
 		p.x += 1;
 	}
-	//не працювала
-	glm::normalize(p);
+
 	n_normalize(p);
 
 	pl->position.x += p.x * alpha * set.player_speed;
@@ -184,4 +174,8 @@ void creature::update_visible_area()
 			}
 		}
 	}
+}
+
+void creature::update_bot_position(float alpha)
+{
 }

@@ -8,7 +8,7 @@
 #include "glm/glm.hpp"
 #include "settings.h"
 #include "input.h"
-
+#include "utilities.h"
 
 class my_sprite
 {
@@ -26,11 +26,23 @@ public:
 class creature
 {
 public:
+	//зображенн€ гравц€
 	my_sprite spr;
+	//бот?
+	bool bot = true;
+	//команда
+	int team;
+
+	//позиц≥€ гравц€
 	glm::vec2 position;
+	//попередн€ позиц≥€ гравц€
+	glm::vec2 last_position;
+	//видима область
 	bool** visible_area;
 
+	//оновленн€ видимоњ област≥
 	void update_visible_area();
+	//оновленн€ позиц≥њ бота
 	void update_bot_position(float);
 protected:
 	input& inp = input::instance();
@@ -47,8 +59,7 @@ public:
 	Sprite* y;
 	Sprite* black;
 
-	std::vector<creature> team1;
-	std::vector<creature> team2;
+	std::vector<creature> players;
 
 	char** world_matrix;
 	char** passage_matrix;
