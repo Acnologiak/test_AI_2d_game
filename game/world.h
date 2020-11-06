@@ -49,10 +49,6 @@ public:
 
 	//оновлення видимої області
 	void update_visible_area();
-	//оновлення позиції бота
-	void update_bot_position(float);
-	//стрільба бота
-	void shooting_bot();
 protected:
 	input& inp = input::instance();
 	settings& set = settings::instance();
