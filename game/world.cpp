@@ -30,7 +30,7 @@ world& world::instance()
 
 void world::update_player_position(float alpha)
 {
-
+	pl->last_position = pl->position;
 
 	glm::vec2 p{ 0, 0 };
 	if (inp.keyboard_up == true)
@@ -178,4 +178,24 @@ void creature::update_visible_area()
 
 void creature::update_bot_position(float alpha)
 {
+}
+
+void world::check_player_crossing(creature& pl)
+{
+	glm::ivec2 pos{ pl.position };
+	for (int i = 0; i < 1; i++)
+	{
+		for (int j = 0; j < 1; j++)
+		{
+			if (passage_matrix[j][i] == 0)
+			{
+				glm::ivec2 p{ i * set.block_size.x, j * set.block_size.y };
+				if (check_crossing(x, p, pl.spr, pos) == true)
+				{
+					pl.position = pl.last_position;
+				}
+			}
+			
+		}
+	}
 }

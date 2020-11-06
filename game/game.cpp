@@ -33,6 +33,7 @@ bool MyFramework::Init()
 				c.team = 0;
 				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
 				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
+				c.last_position = c.position;
 				my_world.players.emplace_back(c);
 			}
 			else if (my_world.passage_matrix[j][i] == 3)
@@ -42,6 +43,7 @@ bool MyFramework::Init()
 				c.team = 1;
 				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
 				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
+				c.last_position = c.position;
 				my_world.players.emplace_back(c);
 			}
 		}
@@ -59,7 +61,14 @@ void MyFramework::Close()
 bool MyFramework::Tick()
 {
 	update_alpha();
+
 	my_world.update_player_position(alpha);
+
+	for (auto& i : my_world.players)
+	{
+		my_world.check_player_crossing(i);
+	}
+
 	my_world.update_camera_position();
 	my_world.pl->update_visible_area();
 

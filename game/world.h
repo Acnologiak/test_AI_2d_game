@@ -10,6 +10,7 @@
 #include "input.h"
 #include "utilities.h"
 
+
 class my_sprite
 {
 	bool status = false;
@@ -80,6 +81,8 @@ public:
 	void update_camera_position();
 	//загрузка св≥ту
 	bool load_world(std::string);
+	//перев≥рка перетину гравц€
+	void check_player_crossing(creature& pl);
 private:
 	world() = default;
 

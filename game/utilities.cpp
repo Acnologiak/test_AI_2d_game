@@ -13,23 +13,25 @@ void n_normalize(glm::vec2& p)
 }
 
 
-bool check_crossing(my_sprite sprite_1, glm::ivec2 spr_1_pos, my_sprite sprite_2, glm::ivec2 spr_2_pos)
+bool check_crossing(my_sprite &sprite_1, glm::ivec2 &spr_1_pos, my_sprite &sprite_2, glm::ivec2 &spr_2_pos)
 {
+	glm::ivec2 box_template_spr_1[4];
+	glm::ivec2 box_template_spr_2[4];
 	for (int i = 0; i < 4; i++)
 	{
-		sprite_1.box_template[i] += spr_1_pos;
-		sprite_2.box_template[i] += spr_2_pos;
+		box_template_spr_1[i] = sprite_1.box_template[i] + spr_1_pos;
+		box_template_spr_2[i] = sprite_2.box_template[i] + spr_2_pos;
 	}
 
 	for (int i = 0; i < 4; i++)
 	{
-		if (sprite_1.box_template[0].x <= sprite_2.box_template[i].x and sprite_1.box_template[2].x >= sprite_2.box_template[i].x
-			and sprite_1.box_template[0].y <= sprite_2.box_template[i].y and sprite_1.box_template[2].y >= sprite_2.box_template[i].y)
+		if (box_template_spr_1[0].x <= box_template_spr_2[i].x and box_template_spr_1[2].x >= box_template_spr_2[i].x
+			and box_template_spr_1[0].y <= box_template_spr_2[i].y and box_template_spr_1[2].y >= box_template_spr_2[i].y)
 		{
 			return true;
 		}
-		if (sprite_2.box_template[0].x <= sprite_1.box_template[i].x and sprite_2.box_template[2].x >= sprite_1.box_template[i].x
-			and sprite_2.box_template[0].y <= sprite_1.box_template[i].y and sprite_2.box_template[2].y >= sprite_1.box_template[i].y)
+		if (box_template_spr_2[0].x <= box_template_spr_1[i].x and box_template_spr_2[2].x >= box_template_spr_1[i].x
+			and box_template_spr_2[0].y <= box_template_spr_1[i].y and box_template_spr_2[2].y >= box_template_spr_1[i].y)
 		{
 			return true;
 		}
