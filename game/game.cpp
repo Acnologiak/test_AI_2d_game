@@ -14,6 +14,12 @@ bool MyFramework::Init()
 	my_world.y.load_sprite("sprites/1.png");
 	my_world.black.load_sprite("sprites/black.png");
 
+	/*std::cout << my_world.x.size.x << " " << my_world.x.size.y << std::endl;
+	for (int i = 0; i < 4; i++)
+	{
+		std::cout << my_world.x.box_template[i].x << " " << my_world.x.box_template[i].y << std::endl;
+	}
+	std::cout << std::endl;*/
 
 	//загрузка світу
 	if (my_world.load_world("worlds/test.txt") == false)

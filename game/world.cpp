@@ -7,10 +7,10 @@ void my_sprite::load_sprite(std::string s)
 	texture = createSprite(s.c_str());
 	getSpriteSize(texture, size.x, size.y);
 
-	box_template[0] = { 0, 0 };
-	box_template[1] = { size.x, 0 };
-	box_template[2] = { size.x, size.y };
-	box_template[3] = { 0, size.y };
+	box_template[0] = glm::ivec2{ 0, 0 };
+	box_template[1] = glm::ivec2{ size.x, 0 };
+	box_template[2] = glm::ivec2{ size.x, size.y };
+	box_template[3] = glm::ivec2{ 0, size.y };
 
 	center = { size.x / 2, size.y / 2 };
 
@@ -183,11 +183,11 @@ void creature::update_bot_position(float alpha)
 void world::check_player_crossing(creature& pl)
 {
 	glm::ivec2 pos{ pl.position };
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < set.world_size.x; i++)
 	{
-		for (int j = 0; j < 1; j++)
+		for (int j = 0; j < set.world_size.x; j++)
 		{
-			if (passage_matrix[j][i] == 0)
+			if (passage_matrix[i][j] == 0)
 			{
 				glm::ivec2 p{ i * set.block_size.x, j * set.block_size.y };
 				if (check_crossing(x, p, pl.spr, pos) == true)
