@@ -39,7 +39,4 @@ private:
 	void draw_bullets();
 	void draw_world();
 	void draw_fog();
-
-	//початок гри
-	bool start();
 };
