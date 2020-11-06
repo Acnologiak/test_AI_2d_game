@@ -10,9 +10,10 @@ void MyFramework::PreInit(int& width, int& height, bool& fullscreen)
 bool MyFramework::Init()
 {
 	//загрузка блоків для відображення світу
-	my_world.x = createSprite("sprites/0.png");
-	my_world.y = createSprite("sprites/1.png");
-	my_world.black = createSprite("sprites/black.png");
+	my_world.x.load_sprite("sprites/0.png");
+	my_world.y.load_sprite("sprites/1.png");
+	my_world.black.load_sprite("sprites/black.png");
+
 
 	//загрузка світу
 	if (my_world.load_world("worlds/test.txt") == false)
@@ -184,11 +185,11 @@ void MyFramework::draw_world()
 				{
 					if (my_world.world_matrix[i][j] == 1)
 					{
-						drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+						drawSprite(my_world.y.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
 					}
 					else
 					{
-						drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+						drawSprite(my_world.x.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
 					}
 				}
 			}
@@ -202,11 +203,11 @@ void MyFramework::draw_world()
 			{
 				if (my_world.world_matrix[i][j] == 1)
 				{
-					drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+					drawSprite(my_world.y.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
 				}
 				else
 				{
-					drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+					drawSprite(my_world.x.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
 				}
 			}
 		}
@@ -223,7 +224,7 @@ void MyFramework::draw_fog()
 			{
 				if (my_world.pl->visible_area[i][j] == false)
 				{
-					drawSprite(my_world.black, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+					drawSprite(my_world.black.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
 				}
 			}
 		}

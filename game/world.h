@@ -56,9 +56,9 @@ public:
 	static world& instance();
 
 	//спрайти блоків світу
-	Sprite* x;
-	Sprite* y;
-	Sprite* black;
+	my_sprite x;
+	my_sprite y;
+	my_sprite black;
 
 	//гравці
 	std::vector<creature> players;
