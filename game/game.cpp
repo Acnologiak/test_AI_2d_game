@@ -64,56 +64,9 @@ bool MyFramework::Tick()
 	my_world.update_camera_position();
 	my_world.pl->update_visible_area();
 
-	if (set.fog == true)
-	{
-		for (int i = 0; i < set.world_size.x; i++)
-		{
-			for (int j = 0; j < set.world_size.y; j++)
-			{
-				if (my_world.pl->visible_area[i][j] == true)
-				{
-					if (my_world.world_matrix[i][j] == 1)
-					{
-						drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-					}
-					else
-					{
-						drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-					}
-				}
-				else
-				{
-					drawSprite(my_world.black, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-				}
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < set.world_size.x; i++)
-		{
-			for (int j = 0; j < set.world_size.y; j++)
-			{
-				if (my_world.world_matrix[i][j] == 1)
-				{
-					drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-				}
-				else
-				{
-					drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-				}
-			}
-		}
-
-		for (const auto& i : my_world.team1)
-		{
-			drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x,i.position.y + my_world.camera_position.y);
-		}
-		for (const auto& i : my_world.team2)
-		{
-			drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x, i.position.y + my_world.camera_position.y);
-		}
-	}
+	draw_world();
+	draw_players();
+	draw_fog();
 	
 	return false;
 }
@@ -211,4 +164,74 @@ void MyFramework::update_alpha()
 	//добавити обмеження fps
 
 	alpha = (float)delta_time / 1000;
+}
+
+void MyFramework::draw_players()
+{
+	for (const auto& i : my_world.team1)
+	{
+		drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x, i.position.y + my_world.camera_position.y);
+	}
+	for (const auto& i : my_world.team2)
+	{
+		drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x, i.position.y + my_world.camera_position.y);
+	}
+}
+
+void MyFramework::draw_world()
+{
+	if (set.fog == true)
+	{
+		for (int i = 0; i < set.world_size.x; i++)
+		{
+			for (int j = 0; j < set.world_size.y; j++)
+			{
+				if (my_world.pl->visible_area[i][j] == true)
+				{
+					if (my_world.world_matrix[i][j] == 1)
+					{
+						drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+					}
+					else
+					{
+						drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < set.world_size.x; i++)
+		{
+			for (int j = 0; j < set.world_size.y; j++)
+			{
+				if (my_world.world_matrix[i][j] == 1)
+				{
+					drawSprite(my_world.y, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+				}
+				else
+				{
+					drawSprite(my_world.x, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+				}
+			}
+		}
+	}
+}
+
+void MyFramework::draw_fog()
+{
+	if (set.fog == true)
+	{
+		for (int i = 0; i < set.world_size.x; i++)
+		{
+			for (int j = 0; j < set.world_size.y; j++)
+			{
+				if (my_world.pl->visible_area[i][j] == false)
+				{
+					drawSprite(my_world.black, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
+				}
+			}
+		}
+	}
 }

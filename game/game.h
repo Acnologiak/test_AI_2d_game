@@ -32,4 +32,8 @@ private:
 	float alpha = 0;
 
 	void update_alpha();
+
+	void draw_players();
+	void draw_world();
+	void draw_fog();
 };
