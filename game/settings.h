@@ -32,9 +32,9 @@ public:
 	//кількість снарядів
 	unsigned int n_ammo{ 6 };
 	//швидкість снаряда
-	float bullet_speed{ 500 };
+	float bullet_speed{ 100 };
 	//мінімальний час між вистрілами
-	unsigned int time_between_shots{ 200 };
+	unsigned int time_between_shots{ 1000 };
 private:
 	settings() = default;
 };

@@ -197,9 +197,9 @@ void creature::update_visible_area()
 }
 
 
-void world::check_players_crossing(creature& pl)
+void world::check_players_crossing(creature& pp)
 {
-	glm::ivec2 pos{ pl.position };
+	glm::ivec2 pos{ pp.position };
 
 	glm::ivec2 c{ pos.x / set.block_size.x, pos.y / set.block_size.y };
 
@@ -213,9 +213,9 @@ void world::check_players_crossing(creature& pl)
 				if (passage_matrix[c_n.x][c_n.y] == 0)
 				{
 					glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
-					if (check_crossing(x, p, pl.spr, pos) == true)
+					if (check_crossing(x, p, pp.spr, pos) == true)
 					{
-						pl.position = pl.last_position;
+						pp.position = pp.last_position;
 					}
 				}
 			}
@@ -317,11 +317,29 @@ void world::move_bullets(float alpha)
 
 void world::update_bot_position(float alpha)
 {
-	
+	glm::vec2 speed{ 50, 0 };
+	players[1].last_position = players[1].position;
+	players[1].position += speed * alpha;
 }
 
 void world::shooting_bot()
 {
+	if (getTickCount() - players[1].last_time_shot >= set.time_between_shots)
+	{
+		glm::vec2 p1, p2;
+		p1 = players[1].position + glm::vec2{ players[1].spr.center } - glm::vec2{ bullet.center };
+		p2.x = 0 - players[1].position.x;
+		p2.y = 0 - players[1].position.y;
+		n_normalize(p2);
+
+		players[1].bullets.push_back(std::make_pair(p1, p2));
+		players[1].last_time_shot = getTickCount();
+	}
+
+	if (pl->bullets.size() > set.n_ammo)
+	{
+		players[1].bullets.erase(pl->bullets.begin());
+	}
 }
 
 void  world :: algorithmkill(std::) {
