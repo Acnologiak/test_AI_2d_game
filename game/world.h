@@ -49,11 +49,7 @@ public:
 
 	//оновлення видимої області
 	void update_visible_area();
-	//оновлення позиції бота
-	void update_bot_position(float);
-	//стрільба бота
-	void shooting_bot();
-protected:
+	
 	input& inp = input::instance();
 	settings& set = settings::instance();
 };
@@ -96,6 +92,11 @@ public:
 	void check_players_crossing(creature& pl);
 	//рух пуль
 	void move_bullets(float alpha);
+	//оновлення позиції бота
+	void update_bot_position(float);
+	//стрільба бота
+	void shooting_bot();
+protected:
 private:
 	world() = default;
 
