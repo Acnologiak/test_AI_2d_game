@@ -36,6 +36,7 @@ private:
 
 	//відображення світу
 	void draw_players();
+	void draw_bullets();
 	void draw_world();
 	void draw_fog();
 };

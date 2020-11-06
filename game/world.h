@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <list>
 
 #include "Framework.h"
 #include "glm/glm.hpp"
@@ -31,6 +32,8 @@ public:
 	my_sprite spr;
 	//бот?
 	bool bot = true;
+	//живий?
+	bool alive = true;
 	//команда
 	int team;
 
@@ -40,11 +43,14 @@ public:
 	glm::vec2 last_position;
 	//видима область
 	bool** visible_area;
+	//пулі
+	std::list<std::pair<glm::vec2, glm::vec2>> bullets;
 
 	//оновлення видимої області
 	void update_visible_area();
 	//оновлення позиції бота
 	void update_bot_position(float);
+	
 protected:
 	input& inp = input::instance();
 	settings& set = settings::instance();
@@ -60,6 +66,7 @@ public:
 	my_sprite x;
 	my_sprite y;
 	my_sprite black;
+	my_sprite bullet;
 
 	//гравці
 	std::vector<creature> players;
@@ -83,6 +90,8 @@ public:
 	bool load_world(std::string);
 	//перевірка перетину гравця
 	void check_players_crossing(creature& pl);
+	//рух пуль
+	void move_bullets(float alpha);
 private:
 	world() = default;
 

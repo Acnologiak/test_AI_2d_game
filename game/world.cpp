@@ -221,3 +221,11 @@ void world::check_players_crossing(creature& pl)
 		}
 	}*/
 }
+
+void world::move_bullets(float alpha)
+{
+	for (auto& q : players)
+	{
+		
+	}
+}

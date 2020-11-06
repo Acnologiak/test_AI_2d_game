@@ -13,6 +13,7 @@ bool MyFramework::Init()
 	my_world.x.load_sprite("sprites/0.png");
 	my_world.y.load_sprite("sprites/1.png");
 	my_world.black.load_sprite("sprites/black.png");
+	my_world.bullet.load_sprite("sprites/bullet.png");
 
 	/*std::cout << my_world.x.size.x << " " << my_world.x.size.y << std::endl;
 	for (int i = 0; i < 4; i++)
@@ -69,6 +70,7 @@ bool MyFramework::Tick()
 	update_alpha();
 
 	my_world.update_player_position(alpha);
+	my_world.move_bullets(alpha);
 
 	for (auto& i : my_world.players)
 	{
@@ -80,6 +82,7 @@ bool MyFramework::Tick()
 
 	draw_world();
 	draw_players();
+	draw_bullets();
 	draw_fog();
 	
 	return false;
@@ -184,7 +187,21 @@ void MyFramework::draw_players()
 {
 	for (const auto& i : my_world.players)
 	{
-		drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x, i.position.y + my_world.camera_position.y);
+		if (i.alive == true)
+		{
+			drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x, i.position.y + my_world.camera_position.y);
+		}
+	}
+}
+
+void MyFramework::draw_bullets()
+{
+	for (const auto& i : my_world.players)
+	{
+		for (const auto& j : i.bullets)
+		{
+			drawSprite(my_world.bullet.texture, j.first.x + my_world.camera_position.x, j.first.y + my_world.camera_position.y);
+		}
 	}
 }
 
