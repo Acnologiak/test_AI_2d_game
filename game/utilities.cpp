@@ -13,7 +13,7 @@ void n_normalize(glm::vec2& p)
 }
 
 
-bool check_crossing(my_sprite &sprite_1, glm::ivec2 &spr_1_pos, my_sprite &sprite_2, glm::ivec2 &spr_2_pos)
+bool check_crossing(my_sprite &sprite_1, glm::ivec2 spr_1_pos, my_sprite &sprite_2, glm::ivec2 spr_2_pos)
 {
 	/*for (int i = 0; i < 4; i++)
 	{

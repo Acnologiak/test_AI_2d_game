@@ -62,7 +62,6 @@ void world::shooting_player()
 	{
 		glm::vec2 p1, p2;
 		p1 = pl->position + glm::vec2{ pl->spr.center } - glm::vec2{ bullet.center };
-		//i.position.x + my_world.camera_position.x
 		p2.x = inp.cursor_pos.x - pl->position.x - camera_position.x;
 		p2.y = inp.cursor_pos.y - pl->position.y - camera_position.y;
 		n_normalize(p2);
@@ -247,9 +246,36 @@ void world::move_bullets(float alpha)
 {
 	for (auto& q : players)
 	{
-		for (auto& i : q.bullets)
+		std::list<std::list<std::pair<glm::vec2, glm::vec2>>::iterator> l;
+		for (auto i = q.bullets.begin(); i != q.bullets.end(); i++)
 		{
-			i.first += i.second * alpha * set.bullet_speed;
+			(*i).first += (*i).second * alpha * set.bullet_speed;
+
+			
+			glm::ivec2 c{ (*i).first.x / set.block_size.x, (*i).first.y / set.block_size.y };
+			for (int n = -1; n < 2; n++)
+			{
+				for (int m = -1; m < 2; m++)
+				{
+					glm::ivec2 c_n{ c.x + n , c.y + m };
+					if (-1 < c_n.x and c_n.x < set.world_size.x and -1 < c_n.y and c_n.y < set.world_size.y)
+					{
+						if (passage_matrix[c_n.x][c_n.y] == 0)
+						{
+							glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
+							if (check_crossing(x, p, bullet, (*i).first) == true)
+							{
+								l.push_back(i);
+							}
+						}
+					}
+				}
+			}
+		}
+		for (int i = 0; i < l.size(); i++)
+		{
+			q.bullets.erase(l.back());
+			l.pop_back();
 		}
 	}
 }
