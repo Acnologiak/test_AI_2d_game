@@ -62,8 +62,9 @@ void world::shooting_player()
 	{
 		glm::vec2 p1, p2;
 		p1 = pl->position + glm::vec2{ pl->spr.center } - glm::vec2{ bullet.center };
-		p2.x = inp.cursor_pos.x - set.window_size.x / 2;
-		p2.y = inp.cursor_pos.y - set.window_size.y / 2;
+		//i.position.x + my_world.camera_position.x
+		p2.x = inp.cursor_pos.x - pl->position.x - camera_position.x;
+		p2.y = inp.cursor_pos.y - pl->position.y - camera_position.y;
 		n_normalize(p2);
 
 		pl->bullets.push_back(std::make_pair(p1, p2));
@@ -246,6 +247,9 @@ void world::move_bullets(float alpha)
 {
 	for (auto& q : players)
 	{
-		
+		for (auto& i : q.bullets)
+		{
+			i.first += i.second * alpha * set.bullet_speed;
+		}
 	}
 }

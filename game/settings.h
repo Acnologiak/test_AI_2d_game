@@ -30,9 +30,9 @@ public:
 	int r_visble_area_2{ 25 };
 
 	//кількість снарядів
-	unsigned int n_ammo{ 3 };
+	unsigned int n_ammo{ 6 };
 	//швидкість снаряда
-	unsigned int bullet_speed{ 100 };
+	float bullet_speed{ 200 };
 	//мінімальний час між вистрілами
 	unsigned int time_between_shots{ 500 };
 private:
