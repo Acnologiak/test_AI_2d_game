@@ -242,10 +242,56 @@ void MyFramework::draw_fog()
 	}
 }
 
+//bool MyFramework::start()
+//{
+//	//загрузка світу
+//	if (my_world.load_world("worlds/test.txt") == false)
+//	{
+//		return false;
+//	}
+//
+//	//задання позиції гравців
+//	my_world.players.clear();
+//	int p = 0;
+//	for (int i = 0; i < set.world_size.x; i++)
+//	{
+//		for (int j = 0; j < set.world_size.y; j++)
+//		{
+//			if (my_world.passage_matrix[j][i] == 2)
+//			{
+//				creature c;
+//				c.spr.load_sprite("sprites/team1.png");
+//				c.team = 0;
+//				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
+//				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
+//				c.last_position = c.position;
+//				c.id = p;
+//				p++;
+//				my_world.players.emplace_back(c);
+//			}
+//			else if (my_world.passage_matrix[j][i] == 3)
+//			{
+//				creature c;
+//				c.spr.load_sprite("sprites/team2.png");
+//				c.team = 1;
+//				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
+//				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
+//				c.last_position = c.position;
+//				c.id = p;
+//				p++;
+//				my_world.players.emplace_back(c);
+//			}
+//		}
+//	}
+//	my_world.pl = &(my_world.players[0]);
+//
+//	return true;
+//}
+
 bool MyFramework::start()
 {
 	//загрузка світу
-	if (my_world.load_world("worlds/test.txt") == false)
+	if (my_world.load_world("worlds/10000001000101010000000.txt") == false)
 	{
 		return false;
 	}
@@ -253,36 +299,29 @@ bool MyFramework::start()
 	//задання позиції гравців
 	my_world.players.clear();
 	int p = 0;
-	for (int i = 0; i < set.world_size.x; i++)
+	while (true)
 	{
-		for (int j = 0; j < set.world_size.y; j++)
+		if (p == 64)
 		{
-			if (my_world.passage_matrix[j][i] == 2)
-			{
-				creature c;
-				c.spr.load_sprite("sprites/team1.png");
-				c.team = 0;
-				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
-				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
-				c.last_position = c.position;
-				c.id = p;
-				p++;
-				my_world.players.emplace_back(c);
-			}
-			else if (my_world.passage_matrix[j][i] == 3)
-			{
-				creature c;
-				c.spr.load_sprite("sprites/team2.png");
-				c.team = 1;
-				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
-				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
-				c.last_position = c.position;
-				c.id = p;
-				p++;
-				my_world.players.emplace_back(c);
-			}
+			break;
+		}
+		int x = rand() % set.world_size.x;
+		int y = rand() % set.world_size.y;
+
+		if (my_world.passage_matrix[x][y] != 0)
+		{
+			creature c;
+			c.spr.load_sprite("sprites/team1.png");
+			c.team = 0;
+			c.position.x = (float)x * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
+			c.position.y = (float)y * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
+			c.last_position = c.position;
+			c.id = p;
+			p++;
+			my_world.players.emplace_back(c);
 		}
 	}
+
 	my_world.pl = &(my_world.players[0]);
 
 	return true;
