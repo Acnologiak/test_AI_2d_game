@@ -56,6 +56,26 @@ void world::update_player_position(float alpha)
 	pl->position.y += p.y * alpha * set.player_speed;
 }
 
+void world::shooting_player()
+{
+	if (getTickCount() - pl->last_time_shot >= set.time_between_shots)
+	{
+		glm::vec2 p1, p2;
+		p1 = pl->position + glm::vec2{ pl->spr.center } - glm::vec2{ bullet.center };
+		p2.x = inp.cursor_pos.x - set.window_size.x / 2;
+		p2.y = inp.cursor_pos.y - set.window_size.y / 2;
+		n_normalize(p2);
+
+		pl->bullets.push_back(std::make_pair(p1, p2));
+		pl->last_time_shot = getTickCount();
+	}
+
+	if (pl->bullets.size() > set.n_ammo)
+	{
+		pl->bullets.pop_front();
+	}
+}
+
 void world::update_camera_position()
 {
 	glm::ivec2 p_pos = glm::ivec2{ pl->position } + pl->spr.center - set.window_size / 2;

@@ -36,6 +36,8 @@ public:
 	bool alive = true;
 	//команда
 	int team;
+	//час останього вистр≥лу
+	int last_time_shot{ 0 };
 
 	//позиц≥€ гравц€
 	glm::vec2 position;
@@ -83,6 +85,8 @@ public:
 
 	//перем≥щенн€ гравц€
 	void update_player_position(float);
+	//ст≥льба гравц€
+	void shooting_player();
 
 	//онвленн€ позиц≥њ камери
 	void update_camera_position();

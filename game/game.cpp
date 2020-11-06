@@ -69,6 +69,10 @@ bool MyFramework::Tick()
 {
 	update_alpha();
 
+	if (inp.mouse_left == true)
+	{
+		my_world.shooting_player();
+	}
 	my_world.update_player_position(alpha);
 	my_world.move_bullets(alpha);
 
