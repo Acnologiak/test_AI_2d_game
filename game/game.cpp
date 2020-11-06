@@ -72,11 +72,11 @@ bool MyFramework::Tick()
 
 	for (auto& i : my_world.players)
 	{
-		my_world.check_player_crossing(i);
+		my_world.check_players_crossing(i);
+		i.update_visible_area();
 	}
 
 	my_world.update_camera_position();
-	my_world.pl->update_visible_area();
 
 	draw_world();
 	draw_players();

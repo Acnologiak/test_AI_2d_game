@@ -82,7 +82,7 @@ public:
 	//загрузка св≥ту
 	bool load_world(std::string);
 	//перев≥рка перетину гравц€
-	void check_player_crossing(creature& pl);
+	void check_players_crossing(creature& pl);
 private:
 	world() = default;
 

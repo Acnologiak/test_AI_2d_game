@@ -164,7 +164,7 @@ void creature::update_visible_area()
 	{
 		for (int j = 0; j < set.world_size.y; j++)
 		{
-			if (pow(pow((float)i - c.x, 2) + pow((float)j - c.y, 2), 0.5) < set.r_visble_area)
+			if (pow((float)i - c.x, 2) + pow((float)j - c.y, 2) < set.r_visble_area_2)
 			{
 				visible_area[i][j] = true;
 			}
@@ -180,7 +180,7 @@ void creature::update_bot_position(float alpha)
 {
 }
 
-void world::check_player_crossing(creature& pl)
+void world::check_players_crossing(creature& pl)
 {
 	glm::ivec2 pos{ pl.position };
 
@@ -193,8 +193,6 @@ void world::check_player_crossing(creature& pl)
 			glm::ivec2 c_n{ c.x + i , c.y + j };
 			if (-1 < c_n.x and c_n.x < set.world_size.x and -1 < c_n.y and c_n.y < set.world_size.y)
 			{
-				
-				
 				if (passage_matrix[c_n.x][c_n.y] == 0)
 				{
 					glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
