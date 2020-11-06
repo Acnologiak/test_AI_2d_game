@@ -80,8 +80,8 @@ bool MyFramework::Tick()
 
 	for (auto& i : my_world.players)
 	{
-		i.update_bot_position(alpha);
-		i.shooting_bot();
+		my_world.update_bot_position(alpha);
+		my_world.shooting_bot();
 		my_world.check_players_crossing(i);
 		i.update_visible_area();
 	}

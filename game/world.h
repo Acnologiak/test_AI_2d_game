@@ -96,6 +96,9 @@ public:
 	void check_players_crossing(creature& pl);
 	//рух пуль
 	void move_bullets(float alpha);
+
+	void update_bot_position(float alpha);
+	void shooting_bot();
 private:
 	world() = default;
 
