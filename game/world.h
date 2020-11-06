@@ -102,3 +102,20 @@ private:
 	settings& set = settings::instance();
 };
 
+class geneticalgorithma {
+private:
+	
+	int i_generation = 0;
+	//std::map<const int, std::shared_ptr<Enemy>> v_generation;
+	
+	
+
+	bool m = true;
+	
+	double d_score = 0;
+
+public:
+	geneticalgorithma(world& world, int number);
+
+
+};

@@ -323,3 +323,15 @@ void world::update_bot_position(float alpha)
 void world::shooting_bot()
 {
 }
+
+void  world :: algorithmkill(std::) {
+	int maxkillsplayer = 0;
+
+	for (auto& p : v_generation){
+		if (p.second->kills() > v_generation[maxkillsplayer]->kills())
+			maxkillsplayer = p.first;
+	}
+
+	
+	//v_generation[maxkillsplayer]->network().saveNetwork(filename, i_generation);
+}
