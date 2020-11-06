@@ -40,19 +40,19 @@ bool MyFramework::Tick()
 {
 	update_alpha();
 
-	my_world.update_player_position(alpha);
+	/*my_world.update_player_position(alpha);
 	if (inp.mouse_left == true)
 	{
 		my_world.shooting_player();
-	}
+	}*/
 
 
 	my_world.move_bullets(alpha);
 
+	my_world.update_bot_position(alpha);
+	my_world.shooting_bot();
 	for (auto& i : my_world.players)
 	{
-		my_world.update_bot_position(alpha);
-		my_world.shooting_bot();
 		my_world.check_players_crossing(i);
 		i.update_visible_area();
 	}

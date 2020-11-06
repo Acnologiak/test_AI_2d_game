@@ -203,9 +203,9 @@ void creature::update_visible_area()
 }
 
 
-void world::check_players_crossing(creature& pl)
+void world::check_players_crossing(creature& pp)
 {
-	glm::ivec2 pos{ pl.position };
+	glm::ivec2 pos{ pp.position };
 
 	glm::ivec2 c{ pos.x / set.block_size.x, pos.y / set.block_size.y };
 
@@ -219,9 +219,9 @@ void world::check_players_crossing(creature& pl)
 				if (passage_matrix[c_n.x][c_n.y] == 0)
 				{
 					glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
-					if (check_crossing(x, p, pl.spr, pos) == true)
+					if (check_crossing(x, p, pp.spr, pos) == true)
 					{
-						pl.position = pl.last_position;
+						pp.position = pp.last_position;
 					}
 				}
 			}
@@ -323,7 +323,8 @@ void world::move_bullets(float alpha)
 
 void world::update_bot_position(float alpha)
 {
-	players[0].position = glm::vec2{ 1000, 1000 };
+	players[0].last_position = players[0].position;
+	players[0].position += glm::vec2{ 20 * alpha, 20 * alpha };
 }
 
 void world::shooting_bot()
