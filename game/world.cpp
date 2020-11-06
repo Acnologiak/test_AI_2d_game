@@ -183,7 +183,31 @@ void creature::update_bot_position(float alpha)
 void world::check_player_crossing(creature& pl)
 {
 	glm::ivec2 pos{ pl.position };
-	for (int i = 0; i < set.world_size.x; i++)
+
+	glm::ivec2 c{ pos.x / set.block_size.x, pos.y / set.block_size.y };
+
+	for (int i = -1; i < 2; i++)
+	{
+		for (int j = -1; j < 2; j++)
+		{
+			glm::ivec2 c_n{ c.x + i , c.y + j };
+			if (-1 < c_n.x and c_n.x < set.world_size.x and -1 < c_n.y and c_n.y < set.world_size.y)
+			{
+				
+				
+				if (passage_matrix[c_n.x][c_n.y] == 0)
+				{
+					glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
+					if (check_crossing(x, p, pl.spr, pos) == true)
+					{
+						pl.position = pl.last_position;
+					}
+				}
+			}
+		}
+	}
+
+	/*for (int i = 0; i < set.world_size.x; i++)
 	{
 		for (int j = 0; j < set.world_size.x; j++)
 		{
@@ -197,5 +221,5 @@ void world::check_player_crossing(creature& pl)
 			}
 			
 		}
-	}
+	}*/
 }
