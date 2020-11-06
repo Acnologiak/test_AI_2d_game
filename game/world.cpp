@@ -316,8 +316,10 @@ void world::move_bullets(float alpha)
 }
 
 void world::update_bot_position(float alpha)
-{
-	players[0].position = glm::vec2{ 1000, 1000 };
+{	
+	players[1].last_position = players[1].position;
+	players[1].position += glm::vec2{ 10 * alpha, 10 * alpha};
+
 }
 
 void world::shooting_bot()
