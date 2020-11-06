@@ -33,7 +33,13 @@ bool my_sprite::get_status()
 	return status;
 }
 
-void player::update_player_position(float alpha)
+world& world::instance()
+{
+	static world instance;
+	return instance;
+}
+
+void world::update_player_position(float alpha)
 {
 	glm::vec2 p{ 0, 0 };
 	if (inp.keyboard_up == true)
@@ -56,19 +62,13 @@ void player::update_player_position(float alpha)
 	glm::normalize(p);
 	n_normalize(p);
 
-	position.x += p.x * alpha * set.player_speed;
-	position.y += p.y * alpha * set.player_speed;
-}
-
-world& world::instance()
-{
-	static world instance;
-	return instance;
+	pl->position.x += p.x * alpha * set.player_speed;
+	pl->position.y += p.y * alpha * set.player_speed;
 }
 
 void world::update_camera_position()
 {
-	glm::ivec2 p_pos = glm::ivec2{ pl.position } + pl.spr.center - set.window_size / 2;
+	glm::ivec2 p_pos = glm::ivec2{ pl->position } + pl->spr.center - set.window_size / 2;
 	
 	if (p_pos.x < 0)
 	{

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <fstream>
+#include <vector>
 
 #include "Framework.h"
 #include "glm/glm.hpp"
@@ -30,18 +31,12 @@ public:
 	bool** visible_area;
 
 	void update_visible_area();
+	void update_bot_position(float);
 protected:
 	input& inp = input::instance();
 	settings& set = settings::instance();
 };
 
-class player : public creature
-{
-public:
-	//перем≥щенн€ гравц€
-	void update_player_position(float);
-private:
-};
 
 class world
 {
@@ -51,12 +46,19 @@ public:
 	Sprite* x;
 	Sprite* y;
 	Sprite* black;
+
+	std::vector<creature> team1;
+	std::vector<creature> team2;
+
 	char** world_matrix;
 	char** passage_matrix;
 
-	player pl;
+	creature* pl;
 
 	glm::ivec2 camera_position;
+
+	//перем≥щенн€ гравц€
+	void update_player_position(float);
 
 	void update_camera_position();
 	bool load_world(std::string);

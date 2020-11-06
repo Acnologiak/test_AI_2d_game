@@ -12,25 +12,40 @@ bool MyFramework::Init()
 	my_world.x = createSprite("sprites/0.png");
 	my_world.y = createSprite("sprites/1.png");
 	my_world.black = createSprite("sprites/black.png");
-	my_world.pl.spr.load_sprite("sprites/player.png");
 
 	if (my_world.load_world("worlds/test.txt") == false)
 	{
 		return false;
 	}
 
-	//задання позиції гравця
+	//задання позиції гравців
 	for (int i = 0; i < set.world_size.x; i++)
 	{
 		for (int j = 0; j < set.world_size.y; j++)
 		{
 			if (my_world.passage_matrix[j][i] == 2)
 			{
-				my_world.pl.position.x = i * set.block_size.x + set.block_size.x / 2 - my_world.pl.spr.center.x;
-				my_world.pl.position.y = j * set.block_size.y + set.block_size.y / 2 - my_world.pl.spr.center.y;
+				creature c;
+				c.spr.load_sprite("sprites/team1.png");
+				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
+				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
+				my_world.team1.emplace_back(c);
+
+
+				//my_world.pl.position.x = i * set.block_size.x + set.block_size.x / 2 - my_world.pl.spr.center.x;
+				//my_world.pl.position.y = j * set.block_size.y + set.block_size.y / 2 - my_world.pl.spr.center.y;
+			}
+			else if (my_world.passage_matrix[j][i] == 3)
+			{
+				creature c;
+				c.spr.load_sprite("sprites/team2.png");
+				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
+				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
+				my_world.team1.emplace_back(c);
 			}
 		}
 	}
+	my_world.pl = &(my_world.team1[0]);
 
 
 
@@ -45,9 +60,9 @@ void MyFramework::Close()
 bool MyFramework::Tick()
 {
 	update_alpha();
-	my_world.pl.update_player_position(alpha);
+	my_world.update_player_position(alpha);
 	my_world.update_camera_position();
-	my_world.pl.update_visible_area();
+	my_world.pl->update_visible_area();
 
 	if (set.fog == true)
 	{
@@ -55,7 +70,7 @@ bool MyFramework::Tick()
 		{
 			for (int j = 0; j < set.world_size.y; j++)
 			{
-				if (my_world.pl.visible_area[i][j] == true)
+				if (my_world.pl->visible_area[i][j] == true)
 				{
 					if (my_world.world_matrix[i][j] == 1)
 					{
@@ -89,9 +104,17 @@ bool MyFramework::Tick()
 				}
 			}
 		}
+
+		for (const auto& i : my_world.team1)
+		{
+			drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x,i.position.y + my_world.camera_position.y);
+		}
+		for (const auto& i : my_world.team2)
+		{
+			drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x, i.position.y + my_world.camera_position.y);
+		}
 	}
 	
-	drawSprite(my_world.pl.spr.texture, my_world.pl.position.x + my_world.camera_position.x, my_world.pl.position.y + +my_world.camera_position.y);
 	return false;
 }
 
