@@ -2,6 +2,12 @@
 
 #include <iostream>
 
+
+
+
+
+
+
 void my_sprite::load_sprite(std::string s)
 {
 	texture = createSprite(s.c_str());
