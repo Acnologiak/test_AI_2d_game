@@ -27,6 +27,7 @@ public:
 class creature
 {
 public:
+	int id;
 	//зображенн€ гравц€
 	my_sprite spr;
 	//бот?

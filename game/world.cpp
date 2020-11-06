@@ -4,10 +4,6 @@
 
 
 
-
-
-
-
 void my_sprite::load_sprite(std::string s)
 {
 	texture = createSprite(s.c_str());
@@ -283,7 +279,8 @@ void world::move_bullets(float alpha)
 				{
 					if (check_crossing(z.spr, z.position, bullet, q.bullets[i].first) == true)
 					{
-						if (z.team != q.team)
+						//if (z.team != q.team)
+						if (z.id != q.id)
 						{
 							z.alive = false;
 							arr.push_back(i);
@@ -323,14 +320,20 @@ void world::move_bullets(float alpha)
 
 void world::update_bot_position(float alpha)
 {
-	glm::vec2 speed{ 50, 0 };
-	players[1].last_position = players[1].position;
-	players[1].position += speed * alpha;
+	/*for (int i = 1; i < players.size(); i++)
+	{
+		players[i].last_position = players[i].position;
+
+		glm::vec2 v{ players[0].position - players[i].position };
+		n_normalize(v);
+
+		players[i].position += 0.5f * v * alpha * set.player_speed;
+	}*/
 }
 
 void world::shooting_bot()
 {
-	if (getTickCount() - players[1].last_time_shot >= set.time_between_shots)
+	/*if (getTickCount() - players[1].last_time_shot >= set.time_between_shots)
 	{
 		glm::vec2 p1, p2;
 		p1 = players[1].position + glm::vec2{ players[1].spr.center } - glm::vec2{ bullet.center };
@@ -345,5 +348,5 @@ void world::shooting_bot()
 	if (pl->bullets.size() > set.n_ammo)
 	{
 		players[1].bullets.erase(pl->bullets.begin());
-	}
+	}*/
 }

@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="Framework.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="move_bot.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="utilities.h" />

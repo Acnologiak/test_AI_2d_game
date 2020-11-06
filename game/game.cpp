@@ -252,6 +252,7 @@ bool MyFramework::start()
 
 	//задання позиції гравців
 	my_world.players.clear();
+	int p = 0;
 	for (int i = 0; i < set.world_size.x; i++)
 	{
 		for (int j = 0; j < set.world_size.y; j++)
@@ -264,6 +265,8 @@ bool MyFramework::start()
 				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
 				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
 				c.last_position = c.position;
+				c.id = p;
+				p++;
 				my_world.players.emplace_back(c);
 			}
 			else if (my_world.passage_matrix[j][i] == 3)
@@ -274,6 +277,8 @@ bool MyFramework::start()
 				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
 				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
 				c.last_position = c.position;
+				c.id = p;
+				p++;
 				my_world.players.emplace_back(c);
 			}
 		}
