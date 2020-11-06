@@ -9,6 +9,7 @@ void MyFramework::PreInit(int& width, int& height, bool& fullscreen)
 
 bool MyFramework::Init()
 {
+	//загрузка блоків для відображення світу
 	my_world.x = createSprite("sprites/0.png");
 	my_world.y = createSprite("sprites/1.png");
 	my_world.black = createSprite("sprites/black.png");
@@ -46,14 +47,12 @@ bool MyFramework::Init()
 	}
 	my_world.pl = &(my_world.players[0]);
 
-
-
 	return true;
 }
 
 void MyFramework::Close()
 {
-	destroySprite(my_world.x);
+	//добавити очистку даних
 }
 
 bool MyFramework::Tick()

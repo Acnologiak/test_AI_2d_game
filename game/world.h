@@ -55,23 +55,30 @@ class world
 public:
 	static world& instance();
 
+	//спрайти блоків світу
 	Sprite* x;
 	Sprite* y;
 	Sprite* black;
 
+	//гравці
 	std::vector<creature> players;
 
+	//матриці для відображення і логіки світу
 	char** world_matrix;
 	char** passage_matrix;
 
+	//гравець
 	creature* pl;
 
+	//позиція камери
 	glm::ivec2 camera_position;
 
 	//переміщення гравця
 	void update_player_position(float);
 
+	//онвлення позиції камери
 	void update_camera_position();
+	//загрузка світу
 	bool load_world(std::string);
 private:
 	world() = default;
