@@ -63,6 +63,8 @@ bool MyFramework::Tick()
 	draw_players();
 	draw_bullets();
 	draw_fog();
+
+	
 	
 	return false;
 }
@@ -291,7 +293,7 @@ void MyFramework::draw_fog()
 bool MyFramework::start()
 {
 	//загрузка світу
-	if (my_world.load_world("worlds/10000001000101010000000.txt") == false)
+	if (my_world.load_world("worlds/test.txt") == false)
 	{
 		return false;
 	}
