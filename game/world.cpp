@@ -196,13 +196,6 @@ void creature::update_visible_area()
 	}
 }
 
-void creature::update_bot_position(float alpha)
-{
-}
-
-void creature::shooting_bot()
-{
-}
 
 void world::check_players_crossing(creature& pl)
 {
@@ -320,4 +313,13 @@ void world::move_bullets(float alpha)
 			std::swap(q.bullets, bullets);
 		}
 	}
+}
+
+void world::update_bot_position(float alpha)
+{
+	
+}
+
+void world::shooting_bot()
+{
 }
