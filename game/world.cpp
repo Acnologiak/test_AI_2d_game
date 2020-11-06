@@ -72,7 +72,7 @@ void world::shooting_player()
 
 	if (pl->bullets.size() > set.n_ammo)
 	{
-		pl->bullets.pop_front();
+		pl->bullets.erase(pl->bullets.begin());
 	}
 }
 
@@ -246,13 +246,14 @@ void world::move_bullets(float alpha)
 {
 	for (auto& q : players)
 	{
-		std::list<std::list<std::pair<glm::vec2, glm::vec2>>::iterator> l;
-		for (auto i = q.bullets.begin(); i != q.bullets.end(); i++)
+		std::vector<int> arr;
+		for (int i=0; i<q.bullets.size(); i++)
 		{
-			(*i).first += (*i).second * alpha * set.bullet_speed;
+			//рух пуль
+			q.bullets[i].first += q.bullets[i].second * alpha * set.bullet_speed;
 
-			
-			glm::ivec2 c{ (*i).first.x / set.block_size.x, (*i).first.y / set.block_size.y };
+			//пошук пуль в ст≥нах
+			glm::ivec2 c{ q.bullets[i].first.x / set.block_size.x, q.bullets[i].first.y / set.block_size.y };
 			for (int n = -1; n < 2; n++)
 			{
 				for (int m = -1; m < 2; m++)
@@ -263,19 +264,56 @@ void world::move_bullets(float alpha)
 						if (passage_matrix[c_n.x][c_n.y] == 0)
 						{
 							glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
-							if (check_crossing(x, p, bullet, (*i).first) == true)
+							if (check_crossing(x, p, bullet, q.bullets[i].first) == true)
 							{
-								l.push_back(i);
+								arr.push_back(i);
 							}
 						}
 					}
 				}
 			}
+
+			//попаданн€ в гравц€
+			for (auto& z : players)
+			{
+				if (z.alive == true)
+				{
+					if (check_crossing(z.spr, z.position, bullet, q.bullets[i].first) == true)
+					{
+						if (z.team != q.team)
+						{
+							z.alive = false;
+							arr.push_back(i);
+						}
+					}
+				}
+			}
+
 		}
-		for (int i = 0; i < l.size(); i++)
+
+		std::vector<std::pair<glm::vec2, glm::vec2>> bullets;
+
+		if (!arr.empty())
 		{
-			q.bullets.erase(l.back());
-			l.pop_back();
+			for (int i = 0; i < q.bullets.size(); i++)
+			{
+				if (!arr.empty())
+				{
+					if (i != arr.front())
+					{
+						bullets.emplace_back(q.bullets[i]);
+					}
+					else
+					{
+						arr.erase(arr.begin());
+					}
+				}
+				else
+				{
+					bullets.emplace_back(q.bullets[i]);
+				}
+			}
+			std::swap(q.bullets, bullets);
 		}
 	}
 }

@@ -3,7 +3,6 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include <list>
 
 #include "Framework.h"
 #include "glm/glm.hpp"
@@ -46,7 +45,7 @@ public:
 	//видима область
 	bool** visible_area;
 	//пулі
-	std::list<std::pair<glm::vec2, glm::vec2>> bullets;
+	std::vector<std::pair<glm::vec2, glm::vec2>> bullets;
 
 	//оновлення видимої області
 	void update_visible_area();

@@ -34,7 +34,7 @@ public:
 	//швидкість снаряда
 	float bullet_speed{ 500 };
 	//мінімальний час між вистрілами
-	unsigned int time_between_shots{ 50 };
+	unsigned int time_between_shots{ 200 };
 private:
 	settings() = default;
 };
