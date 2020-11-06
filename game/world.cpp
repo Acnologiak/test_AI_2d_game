@@ -200,6 +200,10 @@ void creature::update_bot_position(float alpha)
 {
 }
 
+void creature::shooting_bot()
+{
+}
+
 void world::check_players_crossing(creature& pl)
 {
 	glm::ivec2 pos{ pl.position };
