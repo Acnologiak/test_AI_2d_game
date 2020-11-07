@@ -2,9 +2,6 @@
 
 #include <iostream>
 #include "Framework.h"
-#include "world.h"
-#include "settings.h"
-#include "input.h"
 
 /* Test Framework realization */
 class MyFramework : public Framework {
@@ -20,26 +17,5 @@ public:
 	virtual void onKeyReleased(FRKey k);
 
 private:
-	world& my_world = world::instance();
-	settings& set = settings::instance();
-	input& inp = input::instance();
 
-	//час останього оновлення
-	unsigned int last_time = 0;
-	//час між оновленнями
-	unsigned int delta_time = 0;
-	//час між кадрами
-	float alpha = 0;
-
-	//оновлення часу між кадрами
-	void update_alpha();
-
-	//відображення світу
-	void draw_players();
-	void draw_bullets();
-	void draw_world();
-	void draw_fog();
-
-	//початок гри
-	bool start();
 };
