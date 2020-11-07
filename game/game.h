@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "Framework.h"
+#include "input.h"
 
 /* Test Framework realization */
 class MyFramework : public Framework {
@@ -17,5 +18,11 @@ public:
 	virtual void onKeyReleased(FRKey k);
 
 private:
+	input& inp = input::instance();
 
+	float alpha;
+	unsigned int delta_time{ 0 };
+	unsigned int last_time{ 0 };
+
+	void update_alpha();
 };
