@@ -2,7 +2,8 @@
 
 #include <iostream>
 #include "Framework.h"
-#include "input.h"
+#include "players.h"
+#include "world.h"
 
 /* Test Framework realization */
 class MyFramework : public Framework {
@@ -19,6 +20,9 @@ public:
 
 private:
 	input& inp = input::instance();
+	settings& set = settings::instance();
+	players& plrs = players::instance();
+	world& my_world = world::instance();
 
 	float alpha;
 	unsigned int delta_time{ 0 };

@@ -1,0 +1,67 @@
+#include "world.h"
+
+#include <fstream>
+
+
+world& world::instance()
+{
+	static world instance;
+	return instance;
+}
+
+bool world::load_world(std::string path)
+{
+	std::string s;
+	std::ifstream file(path);
+	if (!file.is_open())
+	{
+		return false;
+	}
+
+	//зчитання розміру блоків
+	file >> s;
+	set.block_size.x = atoi(s.c_str());
+	file >> s;
+	set.block_size.y = atoi(s.c_str());
+
+	//зчитання розміру світу
+	file >> s;
+	set.world_size.x = atoi(s.c_str());
+	set.pixel_world_size.x = set.world_size.x * set.block_size.x;
+	file >> s;
+	set.world_size.y = atoi(s.c_str());
+	set.pixel_world_size.y = set.world_size.y * set.block_size.y;
+
+	//створення матриць для заповнення світу
+	g_data.info_matrix = new char* [set.world_size.x];
+	for (int i = 0; i < set.world_size.x; i++)
+	{
+		g_data.info_matrix[i] = new char[set.world_size.y];
+	}
+	g_data.world_matrix = new char* [set.world_size.x];
+	for (int i = 0; i < set.world_size.x; i++)
+	{
+		g_data.world_matrix[i] = new char[set.world_size.y];
+	}
+
+	//загрузка світу світу
+	for (int i = 0; i < set.world_size.x; i++)
+	{
+		file >> s;
+		for (int j = 0; j < set.world_size.y; j++)
+		{
+			g_data.info_matrix[j][i] = s[j];
+		}
+	}
+	for (int i = 0; i < set.world_size.x; i++)
+	{
+		file >> s;
+		for (int j = 0; j < set.world_size.y; j++)
+		{
+			g_data.world_matrix[j][i] = s[j];
+		}
+	}
+
+	file.close();
+	return true;
+}

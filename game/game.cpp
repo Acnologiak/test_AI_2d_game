@@ -1,13 +1,20 @@
 #include "game.h"
 
+
 void MyFramework::PreInit(int& width, int& height, bool& fullscreen)
 {
+	width = set.window_size.x;
+	height = set.window_size.y;
 
+	fullscreen = set.fullscreen;
 }
 
 bool MyFramework::Init()
 {
-	
+	if (my_world.load_world("worlds/test.txt") == false)
+	{
+		return false;
+	}
 	
 
 	return true;
