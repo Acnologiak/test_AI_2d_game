@@ -27,6 +27,9 @@ void MyFramework::Close()
 
 bool MyFramework::Tick()
 {
+	//для навчання вирубити дану функцію
+	update_alpha();
+
 	my_world.draw_blocks();
 	
 	return false;
