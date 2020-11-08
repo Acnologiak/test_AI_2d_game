@@ -14,7 +14,11 @@ public:
 
 	bool load_world(std::string path);
 
+	//відображення світу
 	void draw_blocks();
+
+	//онвлення позиції камери
+	void update_free_cam(float);
 private:
 	world() = default;
 	game_data& g_data = game_data::instance();

@@ -30,6 +30,11 @@ bool MyFramework::Tick()
 	//для навчання вирубити дану функцію
 	update_alpha();
 
+	if (set.free_cam == true)
+	{
+		my_world.update_free_cam(alpha);
+	}
+
 	my_world.draw_blocks();
 	
 	return false;

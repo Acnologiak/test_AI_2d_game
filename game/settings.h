@@ -19,6 +19,11 @@ public:
 	glm::ivec2 block_size{ 64, 64 };
 	//п≥ксельний розм≥р св≥ту
 	glm::ivec2 pixel_world_size{ 0, 0 };
+
+	//швидк≥сть гравц€
+	float player_speed{ 1000 };
+	//в≥льна камера
+	bool free_cam{ true };
 private:
 	settings() = default;
 };

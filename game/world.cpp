@@ -1,6 +1,7 @@
 #include "world.h"
 
 #include <fstream>
+#include "utilities.h"
 
 
 world& world::instance()
@@ -81,7 +82,56 @@ void world::draw_blocks()
 	{
 		for (int j = 0; j < set.world_size.y; j++)
 		{
-			drawSprite(g_data.blocks[g_data.world_matrix[i][j]].texture, i * set.block_size.x + g_data.camera_position.x, j * set.block_size.y + g_data.camera_position.y);
+			drawSprite(g_data.blocks[g_data.world_matrix[i][j]].texture, i * set.block_size.x - g_data.camera_position.x, j * set.block_size.y - g_data.camera_position.y);
+		}
+	}
+}
+
+void world::update_free_cam(float alpha)
+{
+	glm::vec2 p{ 0, 0 };
+	if (inp.keyboard_up == true)
+	{
+		p.y -= 1;
+	}
+	if (inp.keyboard_down == true)
+	{
+		p.y += 1;
+	}
+	if (inp.keyboard_left == true)
+	{
+		p.x -= 1;
+	}
+	if (inp.keyboard_right == true)
+	{
+		p.x += 1;
+	}
+
+	n_normalize(p);
+
+	g_data.camera_position.x += p.x * alpha * set.player_speed;
+	g_data.camera_position.y += p.y * alpha * set.player_speed;
+
+	if (g_data.camera_position.x < 0)
+	{
+		g_data.camera_position.x = 0;
+	}
+	else
+	{
+		if (g_data.camera_position.x > set.pixel_world_size.x - set.window_size.x)
+		{
+			g_data.camera_position.x = set.pixel_world_size.x - set.window_size.x;
+		}
+	}
+	if (g_data.camera_position.y < 0)
+	{
+		g_data.camera_position.y = 0;
+	}
+	else
+	{
+		if (g_data.camera_position.y > set.pixel_world_size.y - set.window_size.y)
+		{
+			g_data.camera_position.y = set.pixel_world_size.y - set.window_size.y;
 		}
 	}
 }
