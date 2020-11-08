@@ -27,7 +27,7 @@ void MyFramework::Close()
 
 bool MyFramework::Tick()
 {
-	
+	my_world.draw_blocks();
 	
 	return false;
 }

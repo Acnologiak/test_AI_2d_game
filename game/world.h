@@ -13,6 +13,8 @@ public:
 	static world& instance();
 
 	bool load_world(std::string path);
+
+	void draw_blocks();
 private:
 	world() = default;
 	game_data& g_data = game_data::instance();

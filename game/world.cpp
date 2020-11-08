@@ -11,7 +11,7 @@ world& world::instance()
 
 bool world::load_world(std::string path)
 {
-	std::string s;
+	std::string s, ss;
 	std::ifstream file(path);
 	if (!file.is_open())
 	{
@@ -62,6 +62,26 @@ bool world::load_world(std::string path)
 		}
 	}
 
+	while (!file.eof())
+	{
+		file >> s;
+		file >> ss;
+		my_sprite x;
+		x.load_sprite(ss);
+		g_data.blocks.emplace(std::make_pair(s[0], x));
+	}
+
 	file.close();
 	return true;
+}
+
+void world::draw_blocks()
+{
+	for (int i = 0; i < set.world_size.x; i++)
+	{
+		for (int j = 0; j < set.world_size.y; j++)
+		{
+			drawSprite(g_data.blocks[g_data.world_matrix[i][j]].texture, i * set.block_size.x + g_data.camera_position.x, j * set.block_size.y + g_data.camera_position.y);
+		}
+	}
 }

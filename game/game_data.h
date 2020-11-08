@@ -1,7 +1,9 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <string>
+#include <utility>
 #include "Framework.h"
 #include "glm/glm.hpp"
 
@@ -22,7 +24,7 @@ public:
 class creature
 {
 public:
-
+	my_sprite spr;
 private:
 
 };
@@ -30,10 +32,16 @@ private:
 class game_data
 {
 public:
+	//матриці світу
 	char** world_matrix;
 	char** info_matrix;
 
-	std::vector<my_sprite> blocks;
+	//позиція камери 
+	glm::ivec2 camera_position{ 0, 0 };
+
+	//блоки світу
+	std::map<char, my_sprite> blocks;
+	//боти
 	std::vector<creature> bots;
 
 	static game_data& instance();
