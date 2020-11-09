@@ -24,7 +24,12 @@ public:
 class creature
 {
 public:
+	int id;
 	my_sprite spr;
+	glm::ivec2 position;
+
+	//живий?
+	bool alive = true;
 private:
 
 };

@@ -16,6 +16,7 @@ public:
 
 	//відображення світу
 	void draw_blocks();
+	void draw_bots();
 
 	//онвлення позиції камери
 	void update_free_cam(float);

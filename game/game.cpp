@@ -15,7 +15,7 @@ bool MyFramework::Init()
 	{
 		return false;
 	}
-	
+	plrs.spawn_bots();
 
 	return true;
 }
@@ -34,8 +34,13 @@ bool MyFramework::Tick()
 	{
 		my_world.update_free_cam(alpha);
 	}
+	else
+	{
+
+	}
 
 	my_world.draw_blocks();
+	my_world.draw_bots();
 	
 	return false;
 }

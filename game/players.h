@@ -10,6 +10,7 @@ class players
 public:
 	static players& instance();
 
+	void spawn_bots();
 private:
 	players() = default;
 	game_data& g_data = game_data::instance();

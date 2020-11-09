@@ -87,6 +87,17 @@ void world::draw_blocks()
 	}
 }
 
+void world::draw_bots()
+{
+	for (auto& i : g_data.bots)
+	{
+		if (i.alive == true)
+		{
+			drawSprite(i.spr.texture, i.position.x - g_data.camera_position.x, i.position.y - g_data.camera_position.y);
+		}
+	}
+}
+
 void world::update_free_cam(float alpha)
 {
 	glm::vec2 p{ 0, 0 };
