@@ -37,12 +37,15 @@ void players::move_bots(float alpha)
 {
 	for (auto& i : g_data.bots)
 	{
-		glm::vec2 p1, p2;
-		p2.x = inp.cursor_pos.x - i.position.x + g_data.camera_position.x;
-		p2.y = inp.cursor_pos.y - i.position.y + g_data.camera_position.y;
-		n_normalize(p2);
+		if (i.alive == true)
+		{
+			glm::vec2 p1, p2;
+			p2.x = inp.cursor_pos.x - i.position.x + g_data.camera_position.x;
+			p2.y = inp.cursor_pos.y - i.position.y + g_data.camera_position.y;
+			n_normalize(p2);
 
-		i.position += alpha * p2 * set.player_speed;		
+			i.position += alpha * p2 * set.player_speed;
+		}		
 	}
 }
 
