@@ -13,7 +13,7 @@ void players::spawn_bots()
 	int p = 0;
 	while (true)
 	{
-		if (p == 16)
+		if (p == 1)
 		{
 			break;
 		}
@@ -38,12 +38,11 @@ void players::move_bots(float alpha)
 	for (auto& i : g_data.bots)
 	{
 		glm::vec2 p1, p2;
-		p2.x = inp.cursor_pos.x - i.position.x - g_data.camera_position.x;
-		p2.y = inp.cursor_pos.y - i.position.y - g_data.camera_position.y;
+		p2.x = inp.cursor_pos.x - i.position.x + g_data.camera_position.x;
+		p2.y = inp.cursor_pos.y - i.position.y + g_data.camera_position.y;
 		n_normalize(p2);
 
-		i.position += alpha * p2 * set.player_speed;
-		
+		i.position += alpha * p2 * set.player_speed;		
 	}
 }
 
@@ -62,30 +61,23 @@ void players::check_crossing_pl()
 				{
 					if (g_data.info_matrix[c_n.x][c_n.y] == '0')
 					{
-						//std::cout << "!";
 						glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
-						int r = check_crossing(g_data.blocks['0'], p, b.spr, b.position);
-						/*if (r == 0)
+						if (check_crossing(g_data.blocks['0'], p, b.spr, b.position) == true)
 						{
-							b.position.y = (c.y + 1) * set.block_size.y;
-						}*/
-						/*else if (r == 1)
-						{
-							b.position.x = (c.x + 1) * set.block_size.x;
+							b.position = b.last_position;
 						}
-						else if (r == 2)
-						{
-							b.position.y = (c.y + 1) * set.block_size.y;
-						}
-						else if (r == 3)
-						{
-							b.position.x = c.x * set.block_size.x;
-						}*/
-
 					}
 				}
 			}
 		}
 	}
 	
+}
+
+void players::update_last_position()
+{
+	for (auto& i : g_data.bots)
+	{
+		i.last_position = i.position;
+	}
 }

@@ -14,6 +14,7 @@ public:
 	void spawn_bots();
 	void move_bots(float);
 	void check_crossing_pl();
+	void update_last_position();
 private:
 	players() = default;
 	game_data& g_data = game_data::instance();

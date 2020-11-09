@@ -27,6 +27,7 @@ public:
 	int id;
 	my_sprite spr;
 	glm::ivec2 position;
+	glm::ivec2 last_position;
 
 	//живий?
 	bool alive = true;

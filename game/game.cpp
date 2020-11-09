@@ -29,6 +29,7 @@ bool MyFramework::Tick()
 {
 	//для навчання вирубити дану функцію
 	update_alpha();
+	plrs.update_last_position();
 	plrs.move_bots(alpha);
 	plrs.check_crossing_pl();
 
