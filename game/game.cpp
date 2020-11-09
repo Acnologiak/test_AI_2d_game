@@ -29,6 +29,8 @@ bool MyFramework::Tick()
 {
 	//для навчання вирубити дану функцію
 	update_alpha();
+	plrs.move_bots(alpha);
+	plrs.check_crossing_pl();
 
 	if (set.free_cam == true)
 	{
