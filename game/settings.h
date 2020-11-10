@@ -24,6 +24,13 @@ public:
 	float player_speed{ 1000 };
 	//вільна камера
 	bool free_cam{ true };
+
+	//кількість снарядів
+	unsigned int n_ammo{ 6 };
+	//швидкість снаряда
+	float bullet_speed{ 400 };
+	//мінімальний час між вистрілами
+	unsigned int time_between_shots{ 1000 };
 private:
 	settings() = default;
 };

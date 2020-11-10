@@ -13,7 +13,7 @@ void players::spawn_bots()
 	int p = 0;
 	while (true)
 	{
-		if (p == 1)
+		if (p == 5)
 		{
 			break;
 		}
@@ -35,18 +35,24 @@ void players::spawn_bots()
 
 void players::move_bots(float alpha)
 {
-	for (auto& i : g_data.bots)
+	/*for (auto& i : g_data.bots)
 	{
-		if (i.alive == true)
-		{
-			glm::vec2 p1, p2;
-			p2.x = inp.cursor_pos.x - i.position.x + g_data.camera_position.x;
-			p2.y = inp.cursor_pos.y - i.position.y + g_data.camera_position.y;
-			n_normalize(p2);
+				
+	}*/
+	if (g_data.bots[0].alive == true)
+	{
+		glm::vec2 p1, p2;
+		p2.x = inp.cursor_pos.x - g_data.bots[0].position.x + g_data.camera_position.x;
+		p2.y = inp.cursor_pos.y - g_data.bots[0].position.y + g_data.camera_position.y;
+		n_normalize(p2);
 
-			i.position += alpha * p2 * set.player_speed;
-		}		
+		move_bot(g_data.bots[0], p2, alpha);
 	}
+}
+
+void players::move_bot(creature& b, glm::vec2 v, float alpha)
+{
+	b.position += alpha * v * set.player_speed;
 }
 
 void players::check_crossing_pl()

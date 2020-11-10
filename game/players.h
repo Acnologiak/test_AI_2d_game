@@ -13,6 +13,7 @@ public:
 
 	void spawn_bots();
 	void move_bots(float);
+	void move_bot(creature& b, glm::vec2 v, float alpha);
 	void check_crossing_pl();
 	void update_last_position();
 private:
