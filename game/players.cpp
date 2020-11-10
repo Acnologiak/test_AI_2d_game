@@ -159,7 +159,7 @@ void players::move_bullets(float alpha)
 							glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
 							if (check_crossing(g_data.bots[l].spr, p, g_data.bullet, g_data.bots[l].bullets[i].first) == true)
 							{
-								//arr.push_back(i);
+								arr.push_back(i);
 							}
 						}
 					}
