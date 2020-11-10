@@ -31,6 +31,10 @@ public:
 
 	//живий?
 	bool alive = true;
+	//час останього вистрілу
+	int last_time_shot{ 0 };
+
+	std::vector<std::pair<glm::vec2, glm::vec2>> bullets;
 private:
 
 };
@@ -38,6 +42,8 @@ private:
 class game_data
 {
 public:
+	static game_data& instance();
+
 	//матриці світу
 	char** world_matrix;
 	char** info_matrix;
@@ -49,8 +55,9 @@ public:
 	std::map<char, my_sprite> blocks;
 	//боти
 	std::vector<creature> bots;
+	//пуля
+	my_sprite bullet;
 
-	static game_data& instance();
 private:
 	game_data() = default;
 };

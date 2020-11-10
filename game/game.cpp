@@ -31,7 +31,9 @@ bool MyFramework::Tick()
 	update_alpha();
 	plrs.update_last_position();
 	plrs.move_bots(alpha);
+	plrs.shooting_bots();
 	plrs.check_crossing_pl();
+	plrs.move_bullets(alpha);
 
 	if (set.free_cam == true)
 	{
@@ -44,6 +46,7 @@ bool MyFramework::Tick()
 
 	my_world.draw_blocks();
 	my_world.draw_bots();
+	my_world.draw_bullets();
 	
 	return false;
 }

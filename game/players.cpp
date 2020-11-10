@@ -52,7 +52,51 @@ void players::move_bots(float alpha)
 
 void players::move_bot(creature& b, glm::vec2 v, float alpha)
 {
-	b.position += alpha * v * set.player_speed;
+	if (g_data.bots[0].alive == true)
+	{
+		b.position += alpha * v * set.player_speed;
+	}
+	
+}
+
+void players::shooting_bots()
+{
+	for (int i=0; i<1; i++)
+	{
+		for (int j = 0; j < g_data.bots.size(); j++)
+		{
+			if (i == j)
+			{
+				continue;
+			}
+			else
+			{
+				glm::vec2 v = g_data.bots[j].position - g_data.bots[i].position;
+				
+				if (glm::length(v) < 600)
+				{
+					n_normalize(v);
+					shooting_bot(g_data.bots[j], -v);
+				}
+			}
+		}
+	}
+}
+
+void players::shooting_bot(creature& b, glm::vec2 v)
+{
+	if (b.alive == true)
+	{
+		if (getTickCount() - b.last_time_shot >= set.time_between_shots)
+		{
+			b.bullets.push_back(std::make_pair(b.position, v));
+			b.last_time_shot = getTickCount();
+		}
+		if (b.bullets.size() > set.n_ammo)
+		{
+			b.bullets.erase(b.bullets.begin());
+		}
+	}	
 }
 
 void players::check_crossing_pl()
@@ -88,5 +132,81 @@ void players::update_last_position()
 	for (auto& i : g_data.bots)
 	{
 		i.last_position = i.position;
+	}
+}
+
+void players::move_bullets(float alpha)
+{
+	for (int m=0; m< g_data.bots.size(); m++)
+	{
+		std::vector<int> arr;
+		for (int i = 0; i < g_data.bots[m].bullets.size(); i++)
+		{
+			//рух пуль
+			g_data.bots[m].bullets[i].first += g_data.bots[m].bullets[i].second * alpha * set.bullet_speed;
+
+			//пошук пуль в ст≥нах
+			glm::ivec2 c{ g_data.bots[m].bullets[i].first.x / set.block_size.x, g_data.bots[m].bullets[i].first.y / set.block_size.y };
+			for (int n = -1; n < 2; n++)
+			{
+				for (int m = -1; m < 2; m++)
+				{
+					glm::ivec2 c_n{ c.x + n , c.y + m };
+					if (-1 < c_n.x and c_n.x < set.world_size.x and -1 < c_n.y and c_n.y < set.world_size.y)
+					{
+						if (g_data.info_matrix[c_n.x][c_n.y] == 0)
+						{
+							glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
+							if (check_crossing(g_data.bots[m].spr, p, g_data.bullet, g_data.bots[m].bullets[i].first) == true)
+							{
+								arr.push_back(i);
+							}
+						}
+					}
+				}
+			}
+
+			//попаданн€ в гравц€
+			for (int z=0; z < g_data.bots.size(); z++)
+			{
+				if (z != m)
+				{
+					if (g_data.bots[z].alive == true)
+					{
+						if (check_crossing(g_data.bots[z].spr, g_data.bots[z].position, g_data.bullet, g_data.bots[m].bullets[i].first) == true)
+						{
+							g_data.bots[z].alive = false;
+							arr.push_back(i);
+						}
+					}
+				}
+			}
+
+		}
+
+		std::vector<std::pair<glm::vec2, glm::vec2>> bullets;
+
+		if (!arr.empty())
+		{
+			for (int i = 0; i < g_data.bots[m].bullets.size(); i++)
+			{
+				if (!arr.empty())
+				{
+					if (i != arr.front())
+					{
+						bullets.emplace_back(g_data.bots[m].bullets[i]);
+					}
+					else
+					{
+						arr.erase(arr.begin());
+					}
+				}
+				else
+				{
+					bullets.emplace_back(g_data.bots[m].bullets[i]);
+				}
+			}
+			std::swap(g_data.bots[m].bullets, bullets);
+		}
 	}
 }

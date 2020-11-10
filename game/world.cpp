@@ -73,6 +73,9 @@ bool world::load_world(std::string path)
 	}
 
 	file.close();
+
+	g_data.bullet.load_sprite("sprites/bullet.png");
+
 	return true;
 }
 
@@ -94,6 +97,17 @@ void world::draw_bots()
 		if (i.alive == true)
 		{
 			drawSprite(i.spr.texture, i.position.x - g_data.camera_position.x, i.position.y - g_data.camera_position.y);
+		}
+	}
+}
+
+void world::draw_bullets()
+{
+	for (const auto& i : g_data.bots)
+	{
+		for (const auto& j : i.bullets)
+		{
+			drawSprite(g_data.bullet.texture, j.first.x - g_data.camera_position.x, j.first.y - g_data.camera_position.y);
 		}
 	}
 }
