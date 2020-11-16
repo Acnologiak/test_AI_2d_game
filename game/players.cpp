@@ -20,6 +20,7 @@ void players::spawn_bots()
 		int x = rand() % set.world_size.x;
 		int y = rand() % set.world_size.y;
 
+
 		if (g_data.info_matrix[x][y] == '1')
 		{
 			creature c;
@@ -42,12 +43,9 @@ void players::move_bots(float alpha)
 	if (g_data.bots[0].alive == true)
 	{
 		glm::vec2 p1, p2;
-		p2.x = (inp.cursor_pos.x - g_data.bots[0].position.x* + g_data.camera_position.x);
-		p2.y = (inp.cursor_pos.y - g_data.bots[0].position.y* + g_data.camera_position.y);
+		p2.x = inp.cursor_pos.x - g_data.bots[0].position.x + g_data.camera_position.x;
+		p2.y = inp.cursor_pos.y - g_data.bots[0].position.y + g_data.camera_position.y;
 
-
-		p2.x = rand() % 5;
-		p2.y = rand() % 9;
 		n_normalize(p2);
 
 		move_bot(g_data.bots[0], p2, alpha);
@@ -59,6 +57,35 @@ void players::move_bot(creature& b, glm::vec2 v, float alpha)
 	if (g_data.bots[0].alive == true)
 	{
 		b.position += alpha * v * set.player_speed;
+
+		system("cls");
+
+		std::cout << b.position.x << " " << b.position.y << std::endl;
+
+		glm::vec2 current_possition = b.position + b.spr.center;
+
+		std::vector<std::pair<std::string, glm::vec2>> inp_data;
+		inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("up -> ", glm::vec2 { 0, -1 }));
+		inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("down -> ", glm::vec2 { 0, 1 }));
+		inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("left -> ", glm::vec2 { -1, 0 }));
+		inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("right -> ", glm::vec2{ 1, 0 }));
+
+		for (const auto& i : inp_data)
+		{
+			glm::vec2 v = i.second;
+
+			v *= 4;
+			glm::vec2 xx = current_possition;
+			glm::ivec2 p{ xx.x / set.block_size.x,  xx.y / set.block_size.y };
+			while (g_data.info_matrix[p.x][p.y] != '0')
+			{
+				xx += v;
+				p = glm::ivec2{ xx.x / set.block_size.x, xx.y / set.block_size.y };
+			}
+			std::cout << i.first << abs(xx.x - current_possition.x) << " " << abs(xx.y - current_possition.y) << std::endl;
+		}
+
+		
 	}
 	
 }

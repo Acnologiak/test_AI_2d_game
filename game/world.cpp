@@ -134,8 +134,8 @@ void world::update_free_cam(float alpha)
 
 	n_normalize(p);
 
-	g_data.camera_position.x += p.x * alpha * set.player_speed;
-	g_data.camera_position.y += p.y * alpha * set.player_speed;
+	g_data.camera_position.x += p.x * alpha * set.cam_speed;
+	g_data.camera_position.y += p.y * alpha * set.cam_speed;
 
 	if (g_data.camera_position.x < 0)
 	{

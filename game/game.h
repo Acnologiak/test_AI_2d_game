@@ -24,7 +24,7 @@ private:
 	players& plrs = players::instance();
 	world& my_world = world::instance();
 
-	float alpha{ 0.033 };
+	float alpha{ 0.0 };
 	unsigned int delta_time{ 0 };
 	unsigned int last_time{ 0 };
 

@@ -49,7 +49,7 @@ public:
 	char** info_matrix;
 
 	//позиція камери 
-	glm::ivec2 camera_position{ 0, 0 };
+	glm::ivec2 camera_position{ 1000, 0 };
 
 	//блоки світу
 	std::map<char, my_sprite> blocks;
