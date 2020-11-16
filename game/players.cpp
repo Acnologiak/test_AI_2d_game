@@ -13,7 +13,7 @@ void players::spawn_bots()
 	int p = 0;
 	while (true)
 	{
-		if (p == 5)
+		if (p == 1)
 		{
 			break;
 		}
@@ -42,8 +42,8 @@ void players::move_bots(float alpha)
 	if (g_data.bots[0].alive == true)
 	{
 		glm::vec2 p1, p2;
-		/*p2.x = (inp.cursor_pos.x - g_data.bots[0].position.x* + g_data.camera_position.x);
-		p2.y = (inp.cursor_pos.y - g_data.bots[0].position.y* + g_data.camera_position.y);*/
+		p2.x = (inp.cursor_pos.x - g_data.bots[0].position.x* + g_data.camera_position.x);
+		p2.y = (inp.cursor_pos.y - g_data.bots[0].position.y* + g_data.camera_position.y);
 
 
 		p2.x = rand() % 5;
@@ -65,7 +65,7 @@ void players::move_bot(creature& b, glm::vec2 v, float alpha)
 
 void players::shooting_bots()
 {
-	for (int i=0; i<1; i++)
+	for (int i=0; i<0; i++)
 	{
 		for (int j = 0; j < g_data.bots.size(); j++)
 		{
@@ -216,16 +216,3 @@ void players::move_bullets(float alpha)
 }
 
 
-void players::neueron() {
-	inputneurons = 8;
-	outputneurons = 1;
-	nl = 3;
-	list = (nnLay*)malloc((nl) * sizeof(nnlay));
-
-	inputs = (float*)malloc((inputneurons) * sizeof(float));
-	targets = (float*)malloc((outputneurons) * sizeof(float));
-
-	list[0].setIO(8, 4); 
-	list[1].setIO(4, 1);	
-	
-}
