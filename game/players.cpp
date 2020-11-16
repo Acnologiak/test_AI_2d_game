@@ -42,8 +42,12 @@ void players::move_bots(float alpha)
 	if (g_data.bots[0].alive == true)
 	{
 		glm::vec2 p1, p2;
-		p2.x = inp.cursor_pos.x - g_data.bots[0].position.x + g_data.camera_position.x;
-		p2.y = inp.cursor_pos.y - g_data.bots[0].position.y + g_data.camera_position.y;
+		/*p2.x = (inp.cursor_pos.x - g_data.bots[0].position.x* + g_data.camera_position.x);
+		p2.y = (inp.cursor_pos.y - g_data.bots[0].position.y* + g_data.camera_position.y);*/
+
+
+		p2.x = rand() % 5;
+		p2.y = rand() % 9;
 		n_normalize(p2);
 
 		move_bot(g_data.bots[0], p2, alpha);
@@ -209,4 +213,19 @@ void players::move_bullets(float alpha)
 			std::swap(g_data.bots[l].bullets, bullets);
 		}
 	}
+}
+
+
+void players::neueron() {
+	inputneurons = 8;
+	outputneurons = 1;
+	nl = 3;
+	list = (nnLay*)malloc((nl) * sizeof(nnlay));
+
+	inputs = (float*)malloc((inputneurons) * sizeof(float));
+	targets = (float*)malloc((outputneurons) * sizeof(float));
+
+	list[0].setIO(8, 4); 
+	list[1].setIO(4, 1);	
+	
 }
