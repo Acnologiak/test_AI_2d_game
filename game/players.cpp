@@ -9,17 +9,21 @@ players& players::instance()
 
 void players::spawn_bots()
 {
+	std::vector<int> v{ 4, 6, 2 };
+
 	g_data.bots.clear();
 	int p = 0;
+
 	while (true)
 	{
-		if (p == 1)
+		if (p == 64)
 		{
 			break;
 		}
-		int x = rand() % set.world_size.x;
-		int y = rand() % set.world_size.y;
-
+		//int x = rand() % set.world_size.x;
+		//int y = rand() % set.world_size.y;
+		int x = 2;
+		int y = 2;
 
 		if (g_data.info_matrix[x][y] == '1')
 		{
@@ -28,6 +32,10 @@ void players::spawn_bots()
 			c.position.x = (float)x * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
 			c.position.y = (float)y * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
 			c.id = p;
+			std::cout << "!";
+
+			c.pl_neuron = neuron(v);
+
 			p++;
 			g_data.bots.emplace_back(c);
 		}
@@ -36,20 +44,52 @@ void players::spawn_bots()
 
 void players::move_bots(float alpha)
 {
-	/*for (auto& i : g_data.bots)
+	for (int s=0; s<g_data.bots.size(); s++)
 	{
-				
-	}*/
-	if (g_data.bots[0].alive == true)
-	{
-		glm::vec2 p1, p2;
-		p2.x = inp.cursor_pos.x - g_data.bots[0].position.x + g_data.camera_position.x;
-		p2.y = inp.cursor_pos.y - g_data.bots[0].position.y + g_data.camera_position.y;
+		if (g_data.bots[s].alive == true)
+		{
+			glm::vec2 p1, p2;
+			//p2.x = inp.cursor_pos.x - g_data.bots[0].position.x + g_data.camera_position.x;
+			//p2.y = inp.cursor_pos.y - g_data.bots[0].position.y + g_data.camera_position.y;
 
-		n_normalize(p2);
+			glm::vec2 current_possition = g_data.bots[s].position + g_data.bots[s].spr.center;
 
-		move_bot(g_data.bots[0], p2, alpha);
+			std::vector<std::pair<std::string, glm::vec2>> inp_data;
+			inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("up -> ", glm::vec2{ 0, -1 }));
+			inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("down -> ", glm::vec2{ 0, 1 }));
+			inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("left -> ", glm::vec2{ -1, 0 }));
+			inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("right -> ", glm::vec2{ 1, 0 }));
+
+			matrix<float> inp(1, 4);
+			for (int i = 0; i < inp_data.size(); i++)
+			{
+				glm::vec2 v = inp_data[i].second;
+
+				v *= 4;
+				glm::vec2 xx = current_possition;
+				glm::ivec2 p{ xx.x / set.block_size.x,  xx.y / set.block_size.y };
+				while (g_data.info_matrix[p.x][p.y] != '0')
+				{
+					xx += v;
+					p = glm::ivec2{ xx.x / set.block_size.x, xx.y / set.block_size.y };
+				}
+
+				inp(0, i) = glm::length(xx);
+			}
+
+			matrix<float> out = g_data.bots[s].pl_neuron.resulting_func(inp);
+
+			p2.x = out(0, 0);
+			p2.y = out(0, 1);
+
+			p2 -= glm::vec2{ 0.5, 0.5 };
+
+			n_normalize(p2);
+
+			move_bot(g_data.bots[s], p2, alpha);
+		}
 	}
+	
 }
 
 void players::move_bot(creature& b, glm::vec2 v, float alpha)
@@ -57,33 +97,6 @@ void players::move_bot(creature& b, glm::vec2 v, float alpha)
 	if (g_data.bots[0].alive == true)
 	{
 		b.position += alpha * v * set.player_speed;
-
-		system("cls");
-
-		std::cout << b.position.x << " " << b.position.y << std::endl;
-
-		glm::vec2 current_possition = b.position + b.spr.center;
-
-		std::vector<std::pair<std::string, glm::vec2>> inp_data;
-		inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("up -> ", glm::vec2 { 0, -1 }));
-		inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("down -> ", glm::vec2 { 0, 1 }));
-		inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("left -> ", glm::vec2 { -1, 0 }));
-		inp_data.emplace_back(std::make_pair<std::string, glm::vec2>("right -> ", glm::vec2{ 1, 0 }));
-
-		for (const auto& i : inp_data)
-		{
-			glm::vec2 v = i.second;
-
-			v *= 4;
-			glm::vec2 xx = current_possition;
-			glm::ivec2 p{ xx.x / set.block_size.x,  xx.y / set.block_size.y };
-			while (g_data.info_matrix[p.x][p.y] != '0')
-			{
-				xx += v;
-				p = glm::ivec2{ xx.x / set.block_size.x, xx.y / set.block_size.y };
-			}
-			std::cout << i.first << abs(xx.x - current_possition.x) << " " << abs(xx.y - current_possition.y) << std::endl;
-		}
 
 		
 	}

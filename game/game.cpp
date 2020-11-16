@@ -15,6 +15,7 @@ bool MyFramework::Init()
 	{
 		return false;
 	}
+
 	plrs.spawn_bots();
 
 	return true;
@@ -27,6 +28,7 @@ void MyFramework::Close()
 
 bool MyFramework::Tick()
 {
+
 	//для навчання вирубити дану функцію
 	update_alpha();
 	plrs.update_last_position();
@@ -47,7 +49,7 @@ bool MyFramework::Tick()
 	my_world.draw_blocks();
 	my_world.draw_bots();
 	my_world.draw_bullets();
-	
+	std::cout << getTickCount() << std::endl;
 	return false;
 }
 

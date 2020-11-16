@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Docum\Документи\4 курс</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\CppLibraries</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,6 +145,7 @@
     <ClCompile Include="game_data.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="neuron.cpp" />
     <ClCompile Include="players.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="utilities.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="game_data.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="neuron.h" />
     <ClInclude Include="players.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="utilities.h" />

@@ -6,6 +6,7 @@
 #include <utility>
 #include "Framework.h"
 #include "glm/glm.hpp"
+#include "neuron.h"
 
 
 class my_sprite
@@ -35,6 +36,8 @@ public:
 	int last_time_shot{ 0 };
 
 	std::vector<std::pair<glm::vec2, glm::vec2>> bullets;
+
+	neuron pl_neuron;
 private:
 
 };
@@ -49,7 +52,7 @@ public:
 	char** info_matrix;
 
 	//позиція камери 
-	glm::ivec2 camera_position{ 1000, 0 };
+	glm::ivec2 camera_position{ 0, 0 };
 
 	//блоки світу
 	std::map<char, my_sprite> blocks;

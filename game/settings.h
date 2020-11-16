@@ -21,7 +21,7 @@ public:
 	glm::ivec2 pixel_world_size{ 0, 0 };
 
 	//швидк≥сть гравц€
-	float player_speed{ 450 };
+	float player_speed{ 400 };
 	//швидк≥сть камери
 	float cam_speed{ 1000 };
 	//в≥льна камера
