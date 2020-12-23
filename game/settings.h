@@ -11,7 +11,7 @@ public:
 	//режим глядача
 	bool spectator_mode{ true };
 	// теплова карта
-	bool thermal_map{ false };
+	bool thermal_map{ true };
 	//номер бота для старту гри
 	int bot_number_for_game{ 0 };
 	//швидкість камери
@@ -58,18 +58,18 @@ public:
 	int thermal_map_min{ -128 };
 
 	//похибка при пошуці оптимальної точки призначення
-	int error_destination{ 16 };
+	int error_destination{ 1 };
 	//радіус пошуку потимальної точки
-	int find_way_r{ 10 };
+	int find_way_r{ 5 };
 	//коефіціент зростання для пошуку шляху
-	int find_way_e_increase{ 1 };
+	int find_way_e_increase{ 10 };
 	//коефіціент для алгоритму пошуку шляху
 	float find_way_z{ 100 };
 
 	//коефіціент агресивності
-	int e_aggressive{ 100 };
+	int e_aggressive{ 300 };
 	//радіус агресивності
-	int r_aggressive{ 3 };
+	int r_aggressive{ 10 };
 private:
 	settings() = default;
 };

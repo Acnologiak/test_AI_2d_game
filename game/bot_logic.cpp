@@ -37,6 +37,16 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 	{
 		matrix[i] = new block_for_find_way[size_world.y];
 	}
+	
+	
+	//for (int j = 0; j < size_world.y; j++)
+	//{
+	//	for (int i = 0; i < size_world.x; i++)
+	//	{
+	//		std::cout << g_data.my_world.thermal_matrix_1_lite[i][j] << " ";
+	//	}
+	//	std::cout << std::endl;
+	//}
 
 	std::list<glm::ivec2> v_1, v_2;
 	v_1.push_back(p1);
@@ -62,15 +72,41 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 					}
 					else
 					{
-						/*k = (float)(matrix[i.x][i.y].sum + thermal_matrix[n_p.x][n_p.y]) / (float)(z * (matrix[i.x][i.y].n_steps + 1));
-						if (k > (float)matrix[n_p.x][n_p.y].sum / (float)matrix[n_p.x][n_p.y].n_steps)
-						{
-							matrix[n_p.x][n_p.y].last_block = i;
-							matrix[n_p.x][n_p.y].sum = thermal_matrix[n_p.x][n_p.y] + matrix[i.x][i.y].sum;
-							matrix[n_p.x][n_p.y].n_steps = 1 + matrix[i.x][i.y].n_steps;
+						k = (float)(matrix[i.x][i.y].sum + thermal_matrix[n_p.x][n_p.y]) / (float)(z * (matrix[i.x][i.y].n_steps + 1));
 
-							v_2.push_back(n_p);
-						}*/
+						bool b = true;
+						glm::ivec2 g_1{ i.x, i.y };
+						while (true)
+						{
+							if (g_1.x == p1.x and g_1.y == p1.y)
+							{
+								b = false;
+								break;
+							}
+							else
+							{
+								if (g_1.x == n_p.x and g_1.y == n_p.y)
+								{
+									b = false;
+									break;
+								}
+								else
+								{
+									g_1 = matrix[g_1.x][g_1.y].last_block;
+								}
+							}
+						}
+						if (b == true)
+						{
+							if (k > (float)matrix[n_p.x][n_p.y].sum / (float)matrix[n_p.x][n_p.y].n_steps)
+							{
+								matrix[n_p.x][n_p.y].last_block = i;
+								matrix[n_p.x][n_p.y].sum = thermal_matrix[n_p.x][n_p.y] + matrix[i.x][i.y].sum;
+								matrix[n_p.x][n_p.y].n_steps = 1 + matrix[i.x][i.y].n_steps;
+
+								v_2.push_back(n_p);
+							}
+						}
 					}
 				}
 			}
@@ -89,15 +125,39 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 					}
 					else
 					{
-						/*k = (float)(matrix[i.x][i.y].sum + thermal_matrix[n_p.x][n_p.y]) / (float)(z * (matrix[i.x][i.y].n_steps + 1));
-						if (k > (float)matrix[n_p.x][n_p.y].sum / (float)matrix[n_p.x][n_p.y].n_steps)
+						bool b = true;
+						glm::ivec2 g_1{ i.x, i.y };
+						while (true)
 						{
-							matrix[n_p.x][n_p.y].last_block = i;
-							matrix[n_p.x][n_p.y].sum = thermal_matrix[n_p.x][n_p.y] + matrix[i.x][i.y].sum;
-							matrix[n_p.x][n_p.y].n_steps = 1 + matrix[i.x][i.y].n_steps;
+							if (g_1.x == p1.x and g_1.y == p1.y)
+							{
+								b = false;
+								break;
+							}
+							else
+							{
+								if (g_1.x == n_p.x and g_1.y == n_p.y)
+								{
+									b = false;
+									break;
+								}
+								else
+								{
+									g_1 = matrix[g_1.x][g_1.y].last_block;
+								}
+							}
+						}
+						if (b == true)
+						{
+							if (k > (float)matrix[n_p.x][n_p.y].sum / (float)matrix[n_p.x][n_p.y].n_steps)
+							{
+								matrix[n_p.x][n_p.y].last_block = i;
+								matrix[n_p.x][n_p.y].sum = thermal_matrix[n_p.x][n_p.y] + matrix[i.x][i.y].sum;
+								matrix[n_p.x][n_p.y].n_steps = 1 + matrix[i.x][i.y].n_steps;
 
-							v_2.push_back(n_p);
-						}*/
+								v_2.push_back(n_p);
+							}
+						}
 					}
 				}
 			}
@@ -116,15 +176,39 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 					}
 					else
 					{
-						/*k = (float)(matrix[i.x][i.y].sum + thermal_matrix[n_p.x][n_p.y]) / (float)(z * (matrix[i.x][i.y].n_steps + 1));
-						if (k > (float)matrix[n_p.x][n_p.y].sum / (float)matrix[n_p.x][n_p.y].n_steps)
+						bool b = true;
+						glm::ivec2 g_1{ i.x, i.y };
+						while (true)
 						{
-							matrix[n_p.x][n_p.y].last_block = i;
-							matrix[n_p.x][n_p.y].sum = thermal_matrix[n_p.x][n_p.y] + matrix[i.x][i.y].sum;
-							matrix[n_p.x][n_p.y].n_steps = 1 + matrix[i.x][i.y].n_steps;
+							if (g_1.x == p1.x and g_1.y == p1.y)
+							{
+								b = false;
+								break;
+							}
+							else
+							{
+								if (g_1.x == n_p.x and g_1.y == n_p.y)
+								{
+									b = false;
+									break;
+								}
+								else
+								{
+									g_1 = matrix[g_1.x][g_1.y].last_block;
+								}
+							}
+						}
+						if (b == true)
+						{
+							if (k > (float)matrix[n_p.x][n_p.y].sum / (float)matrix[n_p.x][n_p.y].n_steps)
+							{
+								matrix[n_p.x][n_p.y].last_block = i;
+								matrix[n_p.x][n_p.y].sum = thermal_matrix[n_p.x][n_p.y] + matrix[i.x][i.y].sum;
+								matrix[n_p.x][n_p.y].n_steps = 1 + matrix[i.x][i.y].n_steps;
 
-							v_2.push_back(n_p);
-						}*/
+								v_2.push_back(n_p);
+							}
+						}
 					}
 				}
 			}
@@ -143,15 +227,39 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 					}
 					else
 					{
-						/*k = (float)(matrix[i.x][i.y].sum + thermal_matrix[n_p.x][n_p.y]) / (float)(z * (matrix[i.x][i.y].n_steps + 1));
-						if (k > (float)matrix[n_p.x][n_p.y].sum / (float)matrix[n_p.x][n_p.y].n_steps)
+						bool b = true;
+						glm::ivec2 g_1{ i.x, i.y };
+						while (true)
 						{
-							matrix[n_p.x][n_p.y].last_block = i;
-							matrix[n_p.x][n_p.y].sum = thermal_matrix[n_p.x][n_p.y] + matrix[i.x][i.y].sum;
-							matrix[n_p.x][n_p.y].n_steps = 1 + matrix[i.x][i.y].n_steps;
+							if (g_1.x == p1.x and g_1.y == p1.y)
+							{
+								b = false;
+								break;
+							}
+							else
+							{
+								if (g_1.x == n_p.x and g_1.y == n_p.y)
+								{
+									b = false;
+									break;
+								}
+								else
+								{
+									g_1 = matrix[g_1.x][g_1.y].last_block;
+								}
+							}
+						}
+						if (b == true)
+						{
+							if (k > (float)matrix[n_p.x][n_p.y].sum / (float)matrix[n_p.x][n_p.y].n_steps)
+							{
+								matrix[n_p.x][n_p.y].last_block = i;
+								matrix[n_p.x][n_p.y].sum = thermal_matrix[n_p.x][n_p.y] + matrix[i.x][i.y].sum;
+								matrix[n_p.x][n_p.y].n_steps = 1 + matrix[i.x][i.y].n_steps;
 
-							v_2.push_back(n_p);
-						}*/
+								v_2.push_back(n_p);
+							}
+						}
 					}
 				}
 			}
@@ -196,7 +304,7 @@ void bot_logic::bot_movement(bot& bob, float alpha)
 
 		int h = set.thermal_map_min - 1;
 		glm::ivec2 size_world = g_data.my_world.get_size_world();
-		glm::ivec2 p;
+		glm::ivec2 p{ 0, 0 };
 
 		for (int i = -set.find_way_r; i <= set.find_way_r; i++)
 		{
@@ -215,39 +323,12 @@ void bot_logic::bot_movement(bot& bob, float alpha)
 				}
 			}
 		}
+		
+		//std::cout << g_data.my_world.thermal_matrix_1_lite[0][0] << std::endl;
 		bob.way_movement = find_way(bob.chunk, p, g_data.my_world.thermal_matrix_1_lite);
 
 	}
 
-	if (bob.status != 0)
-	{
-		if (g_data.my_world.bots[bob.focusing_bot].alive == false)
-		{
-			bob.status = 0;
-
-			int h = set.thermal_map_min - 1;
-			glm::ivec2 size_world = g_data.my_world.get_size_world();
-			glm::ivec2 p;
-
-			for (int i = -set.find_way_r; i <= set.find_way_r; i++)
-			{
-				for (int j = -set.find_way_r; j <= set.find_way_r; j++)
-				{
-					glm::ivec2 p_ch = bob.chunk + glm::ivec2{ i, j };
-					if (p_ch.x > 0 and p_ch.x < size_world.x and
-						p_ch.y > 0 and p_ch.y < size_world.y and g_data.my_world.passage_matrix[p_ch.x][p_ch.y] != '0')
-					{
-						int k = g_data.my_world.thermal_matrix_1_lite[p_ch.x][p_ch.y] + glm::length(glm::vec2{ i, j }) * set.find_way_e_increase + rand() % set.find_way_e_increase;
-						if (k > h)
-						{
-							h = k;
-							p = p_ch;
-						}
-					}
-				}
-			}
-		}
-	}
 
 	//рух бота по заданій частині маршруту
 	m_bot_movement(bob, alpha);
@@ -460,14 +541,12 @@ void bot_logic::shooting_bot(bot& bob, float t)
 
 		
 
-		/*glm::vec2 v1, v2;
+		glm::vec2 v1, v2;
 		v1 = bob.direction_viewing;
 		v2 = g_data.my_world.bots[bob.focusing_bot].direction_viewing;
-		if ((v1.x * v2.x + v1.y * v2.y) > 0)
+		if ((v1.x * v2.x + v1.y * v2.y) < 0)
 		{
-			
 			bob.status = 1;
-	
 			
 			glm::ivec2 world_size = g_data.my_world.get_size_world();
 			for (int n = 0; n < world_size.x; n++)
@@ -502,24 +581,22 @@ void bot_logic::shooting_bot(bot& bob, float t)
 			}
 			
 
-			for (int j = 0; j < world_size.y; j++)
+			/*for (int j = 0; j < world_size.y; j++)
 			{
 				for (int i = 0; i < world_size.x; i++)
 				{
 					std::cout << g_data.my_world.thermal_matrix_1_for_bots[j][i] << " ";
 				}
 				std::cout << std::endl;
-			}
+			}*/
 
 			bob.way_movement.clear();
-			std::cout << p.x << " " << p.y << std::endl;
+			//std::cout << p.x << " " << p.y << std::endl;
 			bob.way_movement = find_way(bob.chunk, p, g_data.my_world.thermal_matrix_1_lite);
-		}*/
-		/*else
+		}
+		else
 		{
-			
 			bob.status = 2;
-			bob.way_movement.clear();
 
 			glm::ivec2 world_size = g_data.my_world.get_size_world();
 			for (int n = 0; n < world_size.x; n++)
@@ -527,12 +604,46 @@ void bot_logic::shooting_bot(bot& bob, float t)
 				for (int m = 0; m < world_size.y; m++)
 				{
 					glm::ivec2 p{ n, m };
-					g_data.my_world.thermal_matrix_1_for_bots[n][m] += learn_func(g_data.my_world.bots[bob.focusing_bot].chunk, p, set.r_aggressive, set.e_aggressive);
-					bob.way_movement = find_way(bob.chunk, p, g_data.my_world.thermal_matrix_1_for_bots);
+					g_data.my_world.thermal_matrix_1_for_bots[n][m] = g_data.my_world.thermal_matrix_1_lite[n][m] + learn_func(g_data.my_world.bots[bob.focusing_bot].chunk, p, set.r_aggressive, set.e_aggressive);
 				}
 			}
 
-		}*/
+			glm::ivec2 size_world = g_data.my_world.get_size_world();
+			int h = set.thermal_map_min - 1;
+			glm::ivec2 p;
+
+			for (int i = -set.find_way_r; i <= set.find_way_r; i++)
+			{
+				for (int j = -set.find_way_r; j <= set.find_way_r; j++)
+				{
+					glm::ivec2 p_ch = bob.chunk + glm::ivec2{ i, j };
+					if (p_ch.x > 0 and p_ch.x < size_world.x and
+						p_ch.y > 0 and p_ch.y < size_world.y and g_data.my_world.passage_matrix[p_ch.x][p_ch.y] != '0')
+					{
+						int k = g_data.my_world.thermal_matrix_1_for_bots[p_ch.x][p_ch.y] + glm::length(glm::vec2{ i, j }) * set.find_way_e_increase + rand() % set.find_way_e_increase;
+						if (k > h)
+						{
+							h = k;
+							p = p_ch;
+						}
+					}
+				}
+			}
+
+
+			/*for (int j = 0; j < world_size.y; j++)
+			{
+				for (int i = 0; i < world_size.x; i++)
+				{
+					std::cout << g_data.my_world.thermal_matrix_1_for_bots[j][i] << " ";
+				}
+				std::cout << std::endl;
+			}*/
+
+			bob.way_movement.clear();
+			//std::cout << p.x << " " << p.y << std::endl;
+			bob.way_movement = find_way(bob.chunk, p, g_data.my_world.thermal_matrix_1_lite);
+		}
 	}
 }
 

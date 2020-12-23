@@ -82,12 +82,19 @@ void game_data::normalize_update_thermal_matrix_1()
 					sum += my_world.thermal_matrix_1[i * 4 + n][j * 4 + m];
 				}
 			}
-			sum /= 4;
-
-			//my_world.thermal_matrix_1_lite[i][j] = sum;
-			my_world.thermal_matrix_1_lite[i][j] = 0;
+			sum /= 16;
+			my_world.thermal_matrix_1_lite[i][j] = sum;
 		}
 	}
+
+	/*for (int j = 0; j < t_m_1_size.y; j++)
+	{
+		for (int i = 0; i < t_m_1_size.x; i++)
+		{
+			std::cout << my_world.thermal_matrix_1[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}*/
 	glm::ivec2 size_world = my_world.get_size_world();
 }
 
