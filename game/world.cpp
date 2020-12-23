@@ -1,352 +1,225 @@
 #include "world.h"
 
-#include <iostream>
+#include <fstream>
 
-
-
-void my_sprite::load_sprite(std::string s)
+world::world()
 {
-	texture = createSprite(s.c_str());
-	getSpriteSize(texture, size.x, size.y);
 
-	box_template[0] = glm::ivec2{ 0, 0 };
-	box_template[1] = glm::ivec2{ size.x, 0 };
-	box_template[2] = glm::ivec2{ size.x, size.y };
-	box_template[3] = glm::ivec2{ 0, size.y };
-
-	center = { size.x / 2, size.y / 2 };
-
-	status = true;
 }
 
-bool my_sprite::get_status()
-{
-	return status;
-}
-
-world& world::instance()
-{
-	static world instance;
-	return instance;
-}
-
-void world::update_player_position(float alpha)
-{
-	pl->last_position = pl->position;
-
-	glm::vec2 p{ 0, 0 };
-	if (inp.keyboard_up == true)
-	{
-		p.y -= 1;
-	}
-	if (inp.keyboard_down == true)
-	{
-		p.y += 1;
-	}
-	if (inp.keyboard_left == true)
-	{
-		p.x -= 1;
-	}
-	if (inp.keyboard_right == true)
-	{
-		p.x += 1;
-	}
-
-	n_normalize(p);
-
-	pl->position.x += p.x * alpha * set.player_speed;
-	pl->position.y += p.y * alpha * set.player_speed;
-}
-
-void world::shooting_player()
-{
-	if (getTickCount() - pl->last_time_shot >= set.time_between_shots)
-	{
-		glm::vec2 p1, p2;
-		p1 = pl->position + glm::vec2{ pl->spr.center } - glm::vec2{ bullet.center };
-		p2.x = inp.cursor_pos.x - pl->position.x - camera_position.x;
-		p2.y = inp.cursor_pos.y - pl->position.y - camera_position.y;
-		n_normalize(p2);
-
-		pl->bullets.push_back(std::make_pair(p1, p2));
-		pl->last_time_shot = getTickCount();
-	}
-
-	if (pl->bullets.size() > set.n_ammo)
-	{
-		pl->bullets.erase(pl->bullets.begin());
-	}
-}
-
-void world::update_camera_position()
-{
-	glm::ivec2 p_pos = glm::ivec2{ pl->position } + pl->spr.center - set.window_size / 2;
-	
-	if (p_pos.x < 0)
-	{
-		p_pos.x = 0;
-		camera_position.x = 0;
-	}
-	else
-	{
-		if (p_pos.x > set.pixel_world_size.x - set.window_size.x)
-		{
-			camera_position.x = -set.pixel_world_size.x + set.window_size.x;
-		}
-		else
-		{
-			camera_position.x = -p_pos.x;
-		}
-	}
-	if (p_pos.y < 0)
-	{
-		p_pos.y = 0;
-		camera_position.y = 0;
-	}
-	else
-	{
-		if (p_pos.y > set.pixel_world_size.y - set.window_size.y)
-		{
-			camera_position.y = -set.pixel_world_size.y + set.window_size.y;
-		}
-		else
-		{
-			camera_position.y = -p_pos.y;
-		}
-	}
-}
-
-bool world::load_world(std::string name)
+bool world::load_world(std::string n_world)
 {
 	std::string s;
-	std::ifstream file(name);
+
+	name_world = n_world;
+	n_world = "worlds/" + name_world + "/map.txt";
+	std::ifstream file(n_world);
 	if (!file.is_open())
 	{
 		return false;
 	}
-	
+
 	//зчитання розміру світу
 	file >> s;
-	set.world_size.x = atoi(s.c_str());
-	set.pixel_world_size.x = set.world_size.x * set.block_size.x;
+	size_world.x = atoi(s.c_str());
 	file >> s;
-	set.world_size.y = atoi(s.c_str());
-	set.pixel_world_size.y = set.world_size.y * set.block_size.y;
+	size_world.y = atoi(s.c_str());
 
 	//створення матриць для заповнення світу
-	passage_matrix = new char* [set.world_size.x];
-	for (int i = 0; i < set.world_size.x; i++)
+	passage_matrix = new unsigned char* [size_world.x];
+	for (int i = 0; i < size_world.x; i++)
 	{
-		passage_matrix[i] = new char[set.world_size.y];
+		passage_matrix[i] = new unsigned char[size_world.y];
 	}
-	world_matrix = new char* [set.world_size.x];
-	for (int i = 0; i < set.world_size.x; i++)
+	world_matrix = new unsigned  char* [size_world.x];
+	for (int i = 0; i < size_world.x; i++)
 	{
-		world_matrix[i] = new char[set.world_size.y];
+		world_matrix[i] = new unsigned  char[size_world.y];
 	}
-	
+
 	//зчитання світу
 	char ch[1];
-	for (int i = 0; i < set.world_size.x; i++)
+	for (int i = 0; i < size_world.y; i++)
 	{
 		file >> s;
-		for (int j = 0; j < set.world_size.y; j++)
+		
+		for (int j = 0; j < size_world.x; j++)
 		{
-			ch[0] = (char)s[j];
-			passage_matrix[j][i] = atoi(ch);
+			passage_matrix[j][i] = (char)s[j];
 		}
 	}
-	for (int i = 0; i < set.world_size.x; i++)
+	for (int i = 0; i < size_world.y; i++)
 	{
 		file >> s;
-		for (int j = 0; j < set.world_size.y; j++)
+		for (int j = 0; j < size_world.x; j++)
 		{
-			ch[0] = (char)s[j];
-			world_matrix[j][i] = atoi(ch);
+			world_matrix[j][i] = (char)s[j];
+		}
+	}
+	file.close();
+
+
+	//створення теплової матриці переміщення
+	size_thermal_matrix_1 = size_world * 4;
+	thermal_matrix_1 = new int* [size_thermal_matrix_1.x];
+	for (int i = 0; i < size_thermal_matrix_1.x; i++)
+	{
+		thermal_matrix_1[i] = new int[size_thermal_matrix_1.y];
+	}
+	//створення спрощеної теплової матриці переміщення
+	thermal_matrix_1_lite = new int* [size_world.x];
+	for (int i = 0; i < size_world.x; i++)
+	{
+		thermal_matrix_1_lite[i] = new int[size_world.y];
+	}
+
+	//зчитаннян теплової матриці руху
+	n_world = "worlds/" + name_world + "/thermal_map_1.txt";
+	file.open(n_world);
+	if (!file.is_open())
+	{
+		return false;
+	}
+	for (int j = 0; j < size_thermal_matrix_1.y; j++)
+	{
+		for (int i = 0; i < size_thermal_matrix_1.x; i++)
+		{
+			file >> s;
+			thermal_matrix_1[i][j] = atoi(s.c_str());
 		}
 	}
 
+	//створення матриці для ботів
+	thermal_matrix_1_for_bots = new int* [size_world.x];
+	for (int i = 0; i < size_world.x; i++)
+	{
+		thermal_matrix_1_for_bots[i] = new int[size_world.y];
+	}
+
+
+	//зчитаннян теплової матриці для уваги
+	thermal_matrix_2 = new int* [size_world.x];
+	for (int i = 0; i < size_world.x; i++)
+	{
+		thermal_matrix_2[i] = new int[size_world.y];
+	}
 	file.close();
+
+	n_world = "worlds/" + name_world + "/thermal_map_2.txt";
+	file.open(n_world);
+	if (!file.is_open())
+	{
+		return false;
+	}
+	for (int j = 0; j < size_world.y; j++)
+	{
+		for (int i = 0; i < size_world.x; i++)
+		{
+			file >> s;
+			thermal_matrix_2[i][j] = atoi(s.c_str());
+		}
+	}
+	file.close();
+
+	status = true;
 	return true;
 }
 
-void creature::update_visible_area()
+void world::spawn_bots()
 {
-	if (visible_area == nullptr)
+	bots.clear();
+
+	int t = 0;
+	for (int i = 0; i < size_world.x; i++)
 	{
-		visible_area = new bool* [set.world_size.x];
-		for (int i = 0; i < set.world_size.x; i++)
+		for (int j = 0; j < size_world.y; j++)
 		{
-			visible_area[i] = new bool[set.world_size.y];
-		}
-	}
-	
-	glm::vec2 c{ position.x / set.block_size.x, position.y / set.block_size.y};
-	for (int i = 0; i < set.world_size.x; i++)
-	{
-		for (int j = 0; j < set.world_size.y; j++)
-		{
-			if (pow((float)i - c.x, 2) + pow((float)j - c.y, 2) < set.r_visble_area_2)
+			if (passage_matrix[i][j] == '2')
 			{
-				visible_area[i][j] = true;
-			}
-			else
-			{
-				visible_area[i][j] = false;
-			}
-		}
-	}
-}
+				bot vova;
 
+				vova.bot_position.x = i * set.block_size.x + (set.block_size.x - set.bot_size.x) / 2;
+				vova.bot_position.y = j * set.block_size.y + (set.block_size.y - set.bot_size.y) / 2;
+				vova.team = t;
 
-void world::check_players_crossing(creature& pp)
-{
-	glm::ivec2 pos{ pp.position };
-
-	glm::ivec2 c{ pos.x / set.block_size.x, pos.y / set.block_size.y };
-
-	for (int i = -1; i < 2; i++)
-	{
-		for (int j = -1; j < 2; j++)
-		{
-			glm::ivec2 c_n{ c.x + i , c.y + j };
-			if (-1 < c_n.x and c_n.x < set.world_size.x and -1 < c_n.y and c_n.y < set.world_size.y)
-			{
-				if (passage_matrix[c_n.x][c_n.y] == 0)
+				int size_visible_area = set.r_visible_area * 2 + 1;
+				vova.size_visible_area = size_visible_area;
+				for (int i = 0; i < vova.size_visible_area; i++)
 				{
-					glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
-					if (check_crossing(x, p, pp.spr, pos) == true)
+					std::vector<bool> b;
+					for (int j = 0; j < vova.size_visible_area; j++)
 					{
-						pp.position = pp.last_position;
+						b.emplace_back(false);
 					}
+					vova.visible_area.emplace_back(b);
 				}
+
+				bots.emplace_back(vova);
+				t++;
 			}
-		}
-	}
-
-	/*for (int i = 0; i < set.world_size.x; i++)
-	{
-		for (int j = 0; j < set.world_size.x; j++)
-		{
-			if (passage_matrix[i][j] == 0)
-			{
-				glm::ivec2 p{ i * set.block_size.x, j * set.block_size.y };
-				if (check_crossing(x, p, pl.spr, pos) == true)
-				{
-					pl.position = pl.last_position;
-				}
-			}
-			
-		}
-	}*/
-}
-
-void world::move_bullets(float alpha)
-{
-	for (auto& q : players)
-	{
-		std::vector<int> arr;
-		for (int i=0; i<q.bullets.size(); i++)
-		{
-			//рух пуль
-			q.bullets[i].first += q.bullets[i].second * alpha * set.bullet_speed;
-
-			//пошук пуль в стінах
-			glm::ivec2 c{ q.bullets[i].first.x / set.block_size.x, q.bullets[i].first.y / set.block_size.y };
-			for (int n = -1; n < 2; n++)
-			{
-				for (int m = -1; m < 2; m++)
-				{
-					glm::ivec2 c_n{ c.x + n , c.y + m };
-					if (-1 < c_n.x and c_n.x < set.world_size.x and -1 < c_n.y and c_n.y < set.world_size.y)
-					{
-						if (passage_matrix[c_n.x][c_n.y] == 0)
-						{
-							glm::ivec2 p{ c_n.x * set.block_size.x, c_n.y * set.block_size.y };
-							if (check_crossing(x, p, bullet, q.bullets[i].first) == true)
-							{
-								arr.push_back(i);
-							}
-						}
-					}
-				}
-			}
-
-			//попадання в гравця
-			for (auto& z : players)
-			{
-				if (z.alive == true)
-				{
-					if (check_crossing(z.spr, z.position, bullet, q.bullets[i].first) == true)
-					{
-						//if (z.team != q.team)
-						if (z.id != q.id)
-						{
-							z.alive = false;
-							arr.push_back(i);
-						}
-					}
-				}
-			}
-
-		}
-
-		std::vector<std::pair<glm::vec2, glm::vec2>> bullets;
-
-		if (!arr.empty())
-		{
-			for (int i = 0; i < q.bullets.size(); i++)
-			{
-				if (!arr.empty())
-				{
-					if (i != arr.front())
-					{
-						bullets.emplace_back(q.bullets[i]);
-					}
-					else
-					{
-						arr.erase(arr.begin());
-					}
-				}
-				else
-				{
-					bullets.emplace_back(q.bullets[i]);
-				}
-			}
-			std::swap(q.bullets, bullets);
 		}
 	}
 }
 
-void world::update_bot_position(float alpha)
+void world::save_thermal_matrix_1()
 {
-	/*for (int i = 1; i < players.size(); i++)
+	std::string path = "worlds/" + name_world + "/thermal_map_1.txt";
+	std::ofstream file(path);
+
+	for (int j = 0; j < size_thermal_matrix_1.y; j++)
 	{
-		players[i].last_position = players[i].position;
-
-		glm::vec2 v{ players[0].position - players[i].position };
-		n_normalize(v);
-
-		players[i].position += 0.5f * v * alpha * set.player_speed;
-	}*/
-}
-
-void world::shooting_bot()
-{
-	/*if (getTickCount() - players[1].last_time_shot >= set.time_between_shots)
-	{
-		glm::vec2 p1, p2;
-		p1 = players[1].position + glm::vec2{ players[1].spr.center } - glm::vec2{ bullet.center };
-		p2.x = 0 - players[1].position.x;
-		p2.y = 0 - players[1].position.y;
-		n_normalize(p2);
-
-		players[1].bullets.push_back(std::make_pair(p1, p2));
-		players[1].last_time_shot = getTickCount();
+		for (int i = 0; i < size_thermal_matrix_1.x; i++)
+		{
+			file << (int)thermal_matrix_1[i][j] << " ";
+		}
+		file << std::endl;
 	}
 
-	if (pl->bullets.size() > set.n_ammo)
+	file.close();
+}
+
+void world::save_thermal_matrix_2()
+{
+	std::string path = "worlds/" + name_world + "/thermal_map_2.txt";
+	std::ofstream file(path);
+
+	for (int j = 0; j < size_world.y; j++)
 	{
-		players[1].bullets.erase(pl->bullets.begin());
-	}*/
+		for (int i = 0; i < size_world.x; i++)
+		{
+			file << (int)thermal_matrix_2[i][j] << " ";
+		}
+		file << std::endl;
+	}
+
+	file.close();
+}
+
+world::~world()
+{
+	save_thermal_matrix_1();
+	save_thermal_matrix_2();
+
+	if (status == true)
+	{
+		for (int i = 0; i < size_world.x; i++)
+		{
+			delete[] passage_matrix[i];
+			delete[] world_matrix[i];
+			delete[] thermal_matrix_1_lite[i];
+			delete[] thermal_matrix_2[i];
+			delete[] thermal_matrix_1_for_bots[i];
+		}
+		delete passage_matrix;
+		delete world_matrix;
+		delete[] thermal_matrix_1_lite;
+		delete[] thermal_matrix_2;
+		delete[] thermal_matrix_1_for_bots;
+
+		for (int i = 0; i < size_thermal_matrix_1.x; i++)
+		{
+			delete[] thermal_matrix_1[i];
+		}
+		delete thermal_matrix_1;
+	}
 }

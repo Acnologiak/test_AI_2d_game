@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b9f67b9d-e3bf-4a19-af5b-b21401d48311}</ProjectGuid>
+    <ProjectGuid>{c7370070-de6d-47dd-8d5c-b8a31b624972}</ProjectGuid>
     <RootNamespace>game</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -116,6 +116,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,21 +142,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bot.cpp" />
+    <ClCompile Include="bot_logic.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="game_data.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="learning_functions.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="my_sprite.cpp" />
+    <ClCompile Include="operations_with_points.cpp" />
+    <ClCompile Include="operations_with_vectors.cpp" />
     <ClCompile Include="settings.cpp" />
-    <ClCompile Include="utilities.cpp" />
     <ClCompile Include="world.cpp" />
+    <ClCompile Include="world_rendering.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bot.h" />
+    <ClInclude Include="bot_logic.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="move_bot.h" />
+    <ClInclude Include="game_data.h" />
+    <ClInclude Include="learning_functions.h" />
+    <ClInclude Include="operations_with_points.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="my_sprite.h" />
+    <ClInclude Include="operations_with_vectors.h" />
     <ClInclude Include="settings.h" />
-    <ClInclude Include="utilities.h" />
     <ClInclude Include="world.h" />
+    <ClInclude Include="world_rendering.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

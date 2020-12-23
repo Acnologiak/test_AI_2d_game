@@ -13,48 +13,105 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\game data">
+      <UniqueIdentifier>{5a190594-bdf7-4cd2-ace5-6350b5b741b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game data">
+      <UniqueIdentifier>{ae03172b-b1a8-45f6-8069-7fd9e0f18f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game engine">
+      <UniqueIdentifier>{10074e56-a396-400c-8bfe-6d9207fb02c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game engine">
+      <UniqueIdentifier>{bd0ba9d1-f6c4-4eba-b0a6-c386169e616d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utilities">
+      <UniqueIdentifier>{5e454f65-f994-491b-b14d-eeda10db5f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utilities">
+      <UniqueIdentifier>{cfb4087b-eae6-4324-865c-790cc0759c1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="world.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\game data</Filter>
     </ClCompile>
-    <ClCompile Include="settings.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="game_data.cpp">
+      <Filter>Source Files\game data</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\game engine</Filter>
     </ClCompile>
-    <ClCompile Include="utilities.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="game.cpp">
+      <Filter>Source Files\game engine</Filter>
+    </ClCompile>
+    <ClCompile Include="my_sprite.cpp">
+      <Filter>Source Files\game data</Filter>
+    </ClCompile>
+    <ClCompile Include="settings.cpp">
+      <Filter>Source Files\game data</Filter>
+    </ClCompile>
+    <ClCompile Include="world_rendering.cpp">
+      <Filter>Source Files\game engine</Filter>
+    </ClCompile>
+    <ClCompile Include="bot.cpp">
+      <Filter>Source Files\game data</Filter>
+    </ClCompile>
+    <ClCompile Include="bot_logic.cpp">
+      <Filter>Source Files\game engine</Filter>
+    </ClCompile>
+    <ClCompile Include="operations_with_points.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="operations_with_vectors.cpp">
+      <Filter>Source Files\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="learning_functions.cpp">
+      <Filter>Source Files\utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="world.h">
+      <Filter>Header Files\game data</Filter>
+    </ClInclude>
+    <ClInclude Include="game_data.h">
+      <Filter>Header Files\game data</Filter>
+    </ClInclude>
     <ClInclude Include="Framework.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\game engine</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="world.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="settings.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\game engine</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\game engine</Filter>
     </ClInclude>
-    <ClInclude Include="utilities.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="my_sprite.h">
+      <Filter>Header Files\game data</Filter>
     </ClInclude>
-    <ClInclude Include="move_bot.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="settings.h">
+      <Filter>Header Files\game data</Filter>
+    </ClInclude>
+    <ClInclude Include="world_rendering.h">
+      <Filter>Header Files\game engine</Filter>
+    </ClInclude>
+    <ClInclude Include="bot.h">
+      <Filter>Header Files\game data</Filter>
+    </ClInclude>
+    <ClInclude Include="bot_logic.h">
+      <Filter>Header Files\game engine</Filter>
+    </ClInclude>
+    <ClInclude Include="operations_with_points.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="operations_with_vectors.h">
+      <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="learning_functions.h">
+      <Filter>Header Files\utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

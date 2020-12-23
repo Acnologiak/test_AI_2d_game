@@ -1,72 +1,82 @@
 #include "game.h"
 
+
 void MyFramework::PreInit(int& width, int& height, bool& fullscreen)
 {
-	width = set.window_size.x;
-	height = set.window_size.y;
-	fullscreen = set.fullscreen;
+    width = set.window_size.x;
+    height = set.window_size.y;
+    fullscreen = set.fullscreen;
 }
 
 bool MyFramework::Init()
 {
-	//загрузка блоків для відображення світу
-	my_world.x.load_sprite("sprites/0.png");
-	my_world.y.load_sprite("sprites/1.png");
-	my_world.black.load_sprite("sprites/black.png");
-	my_world.bullet.load_sprite("sprites/bullet.png");
-
-	if (start() == false)
+	g_data.my_world.load_world("1");
+	if (g_data.my_world.get_status() == false)
 	{
 		return false;
 	}
-	/*std::cout << my_world.x.size.x << " " << my_world.x.size.y << std::endl;
-	for (int i = 0; i < 4; i++)
+	g_data.my_world.spawn_bots();
+	g_data.update_thermal_matrix_1();
+
+	g_data.block_0.load_sprite("0.png");
+	g_data.block_1.load_sprite("1.png");
+	g_data.team_1.load_sprite("team1.png");
+	g_data.bullet.load_sprite("bullet.png");
+
+	for (int i = 0; i < 64; i++)
 	{
-		std::cout << my_world.x.box_template[i].x << " " << my_world.x.box_template[i].y << std::endl;
+		std::string path;
+		path += "thermal blocks/" + std::to_string(i) + ".jpg";
+		g_data.thermal_blocks[i].load_sprite(path);
 	}
-	std::cout << std::endl;*/
 
-	
+	restart_game();
 
-	return true;
+    return true;
 }
 
 void MyFramework::Close()
 {
-	//добавити очистку даних
 }
 
 bool MyFramework::Tick()
 {
+	//кінець гри?
+	if (check_end_game() == true)
+	{
+		restart_game();
+	}
+
+	//оновлення позиції камери
+	if (set.spectator_mode == true)
+	{
+		w_rendering.update_camera_pos_spectator(alpha);
+	}
+	else
+	{
+		w_rendering.update_camera_pos_pl();
+	}
+
+	//операції з ботом
+	move_bots(alpha);
+	shooting(alpha);
+	b_logic.check_crossing_bots();
+	//відображення світу
+	if (set.thermal_map == true)
+	{
+		w_rendering.draw_thermal_blocks();
+	}
+	else
+	{
+		w_rendering.draw_blocks();
+	}
+	w_rendering.draw_bots();
+	w_rendering.draw_bullets();
+
+	//оновлення альфа
 	update_alpha();
 
-	my_world.update_player_position(alpha);
-	if (inp.mouse_left == true)
-	{
-		my_world.shooting_player();
-	}
-
-
-	my_world.move_bullets(alpha);
-
-	my_world.update_bot_position(alpha);
-	my_world.shooting_bot();
-	for (auto& i : my_world.players)
-	{
-		my_world.check_players_crossing(i);
-		i.update_visible_area();
-	}
-
-	my_world.update_camera_position();
-
-	draw_world();
-	draw_players();
-	draw_bullets();
-	draw_fog();
-
-	
-	
-	return false;
+    return false;
 }
 
 void MyFramework::onMouseMove(int x, int y, int xrelative, int yrelative)
@@ -158,173 +168,87 @@ void MyFramework::update_alpha()
 	delta_time = current_time - last_time;
 	last_time = current_time;
 
-	//fps = 1000 / (float)delta_time;
-	//добавити обмеження fps
-
 	alpha = (float)delta_time / 1000;
+
+	if (alpha > 0.033)
+	{
+		alpha = 0.033;
+	}
 }
 
-void MyFramework::draw_players()
+void MyFramework::move_bots(float alpha)
 {
-	for (const auto& i : my_world.players)
+	for (int i=0; i<g_data.my_world.bots.size(); i++)
+	{
+		if (g_data.my_world.bots[i].alive == false)
+		{
+			continue;
+		}
+
+		b_logic.update_chunk(g_data.my_world.bots[i]);
+
+		if (set.bot_number_for_game == i and set.spectator_mode == false)
+		{
+			b_logic.move_player(g_data.my_world.bots[i], alpha);
+		}
+		else
+		{
+			b_logic.bot_movement(g_data.my_world.bots[i], alpha);
+		}
+	}
+}
+
+void MyFramework::shooting(float alpha)
+{
+	for (int i = 0; i < g_data.my_world.bots.size(); i++)
+	{
+		if (g_data.my_world.bots[i].alive == true)
+		{
+			b_logic.update_visible_area(g_data.my_world.bots[i]);
+
+			if (set.bot_number_for_game == i and set.spectator_mode == false)
+			{
+				b_logic.shooting_player(g_data.my_world.bots[i], getTickCount());
+			}
+			else
+			{
+				b_logic.shooting_bot(g_data.my_world.bots[i], getTickCount());
+			}
+
+			b_logic.move_bullets(g_data.my_world.bots[i], alpha);
+
+			b_logic.check_bullets(g_data.my_world.bots[i]);
+
+			b_logic.update_direction_viewing(g_data.my_world.bots[i]);
+		}
+		
+	}
+}
+
+void MyFramework::restart_game()
+{
+	g_data.update_thermal_matrix_1();
+	g_data.update_thermal_matrix_2();
+	g_data.my_world.spawn_bots();
+}
+
+bool MyFramework::check_end_game()
+{
+	int n = 0;
+	for (auto& i : g_data.my_world.bots)
 	{
 		if (i.alive == true)
 		{
-			drawSprite(i.spr.texture, i.position.x + my_world.camera_position.x, i.position.y + my_world.camera_position.y);
+			n++;
 		}
 	}
-}
 
-void MyFramework::draw_bullets()
-{
-	for (const auto& i : my_world.players)
-	{
-		for (const auto& j : i.bullets)
-		{
-			drawSprite(my_world.bullet.texture, j.first.x + my_world.camera_position.x, j.first.y + my_world.camera_position.y);
-		}
-	}
-}
-
-void MyFramework::draw_world()
-{
-	if (set.fog == true)
-	{
-		for (int i = 0; i < set.world_size.x; i++)
-		{
-			for (int j = 0; j < set.world_size.y; j++)
-			{
-				if (my_world.pl->visible_area[i][j] == true)
-				{
-					if (my_world.world_matrix[i][j] == 1)
-					{
-						drawSprite(my_world.y.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-					}
-					else
-					{
-						drawSprite(my_world.x.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-					}
-				}
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < set.world_size.x; i++)
-		{
-			for (int j = 0; j < set.world_size.y; j++)
-			{
-				if (my_world.world_matrix[i][j] == 1)
-				{
-					drawSprite(my_world.y.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-				}
-				else
-				{
-					drawSprite(my_world.x.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-				}
-			}
-		}
-	}
-}
-
-void MyFramework::draw_fog()
-{
-	if (set.fog == true)
-	{
-		for (int i = 0; i < set.world_size.x; i++)
-		{
-			for (int j = 0; j < set.world_size.y; j++)
-			{
-				if (my_world.pl->visible_area[i][j] == false)
-				{
-					drawSprite(my_world.black.texture, i * set.block_size.x + my_world.camera_position.x, j * set.block_size.y + my_world.camera_position.y);
-				}
-			}
-		}
-	}
-}
-
-//bool MyFramework::start()
-//{
-//	//загрузка світу
-//	if (my_world.load_world("worlds/test.txt") == false)
-//	{
-//		return false;
-//	}
-//
-//	//задання позиції гравців
-//	my_world.players.clear();
-//	int p = 0;
-//	for (int i = 0; i < set.world_size.x; i++)
-//	{
-//		for (int j = 0; j < set.world_size.y; j++)
-//		{
-//			if (my_world.passage_matrix[j][i] == 2)
-//			{
-//				creature c;
-//				c.spr.load_sprite("sprites/team1.png");
-//				c.team = 0;
-//				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
-//				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
-//				c.last_position = c.position;
-//				c.id = p;
-//				p++;
-//				my_world.players.emplace_back(c);
-//			}
-//			else if (my_world.passage_matrix[j][i] == 3)
-//			{
-//				creature c;
-//				c.spr.load_sprite("sprites/team2.png");
-//				c.team = 1;
-//				c.position.x = i * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
-//				c.position.y = j * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
-//				c.last_position = c.position;
-//				c.id = p;
-//				p++;
-//				my_world.players.emplace_back(c);
-//			}
-//		}
-//	}
-//	my_world.pl = &(my_world.players[0]);
-//
-//	return true;
-//}
-
-bool MyFramework::start()
-{
-	//загрузка світу
-	if (my_world.load_world("worlds/test.txt") == false)
+	if (n > 1)
 	{
 		return false;
 	}
-
-	//задання позиції гравців
-	my_world.players.clear();
-	int p = 0;
-	while (true)
+	else
 	{
-		if (p == 64)
-		{
-			break;
-		}
-		int x = rand() % set.world_size.x;
-		int y = rand() % set.world_size.y;
-
-		if (my_world.passage_matrix[x][y] != 0)
-		{
-			creature c;
-			c.spr.load_sprite("sprites/team1.png");
-			c.team = 0;
-			c.position.x = (float)x * set.block_size.x + set.block_size.x / 2 - c.spr.center.x;
-			c.position.y = (float)y * set.block_size.y + set.block_size.y / 2 - c.spr.center.y;
-			c.last_position = c.position;
-			c.id = p;
-			p++;
-			my_world.players.emplace_back(c);
-		}
+		return true;
 	}
-
-	my_world.pl = &(my_world.players[0]);
-
-	return true;
 }

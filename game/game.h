@@ -1,12 +1,14 @@
 #pragma once
 
-#include <iostream>
 #include "Framework.h"
-#include "world.h"
 #include "settings.h"
 #include "input.h"
+#include "game_data.h"
+#include "world_rendering.h"
+#include "bot_logic.h"
 
-/* Test Framework realization */
+#include <iostream>
+
 class MyFramework : public Framework {
 
 public:
@@ -20,9 +22,11 @@ public:
 	virtual void onKeyReleased(FRKey k);
 
 private:
-	world& my_world = world::instance();
 	settings& set = settings::instance();
 	input& inp = input::instance();
+	game_data& g_data = game_data::instance();
+	world_rendering& w_rendering = world_rendering::instance();
+	bot_logic& b_logic = bot_logic::instance();
 
 	//час останього оновлення
 	unsigned int last_time = 0;
@@ -34,12 +38,9 @@ private:
 	//оновлення часу між кадрами
 	void update_alpha();
 
-	//відображення світу
-	void draw_players();
-	void draw_bullets();
-	void draw_world();
-	void draw_fog();
 
-	//початок гри
-	bool start();
+	void move_bots(float);
+	void shooting(float);
+	void restart_game();
+	bool check_end_game();
 };

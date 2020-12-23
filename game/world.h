@@ -1,105 +1,55 @@
 #pragma once
 
 #include <string>
-#include <fstream>
 #include <vector>
+#include <fstream>
 
-#include "Framework.h"
 #include "glm/glm.hpp"
+#include "bot.h"
 #include "settings.h"
-#include "input.h"
-#include "utilities.h"
-
-
-class my_sprite
-{
-	bool status = false;
-public:
-	Sprite* texture;
-	glm::ivec2 size;
-	glm::ivec2 center;
-	glm::ivec2 box_template[4];
-
-	void load_sprite(std::string);
-	bool get_status();
-};
-
-class creature
-{
-public:
-	int id;
-	//зображенн€ гравц€
-	my_sprite spr;
-	//бот?
-	bool bot = true;
-	//живий?
-	bool alive = true;
-	//команда
-	int team;
-	//час останього вистр≥лу
-	int last_time_shot{ 0 };
-
-	//позиц≥€ гравц€
-	glm::vec2 position;
-	//попередн€ позиц≥€ гравц€
-	glm::vec2 last_position;
-	//видима область
-	bool** visible_area;
-	//пул≥
-	std::vector<std::pair<glm::vec2, glm::vec2>> bullets;
-
-	//оновленн€ видимоњ област≥
-	void update_visible_area();
-protected:
-	input& inp = input::instance();
-	settings& set = settings::instance();
-};
-
 
 class world
 {
 public:
-	static world& instance();
+	world();
+	~world();
 
-	//спрайти блок≥в св≥ту
-	my_sprite x;
-	my_sprite y;
-	my_sprite black;
-	my_sprite bullet;
+	bool load_world(std::string name_world);
+	void spawn_bots();
 
-	//гравц≥
-	std::vector<creature> players;
+
+	bool get_status() { return status; };
+	glm::ivec2 get_size_world() { return size_world; };
+	glm::ivec2 get_size_thermal_matrix_1() { return size_thermal_matrix_1; };
+	std::string get_name_world() { return name_world; };
 
 	//матриц≥ дл€ в≥дображенн€ ≥ лог≥ки св≥ту
-	char** world_matrix;
-	char** passage_matrix;
+	unsigned char** world_matrix;
+	unsigned char** passage_matrix;
 
-	//гравець
-	creature* pl;
+	//теплов≥ матриц≥
+	int** thermal_matrix_1;
+	int** thermal_matrix_1_lite;
+	int** thermal_matrix_2;
+	
+	int** thermal_matrix_1_for_bots;
 
-	//позиц≥€ камери
-	glm::ivec2 camera_position;
+	//боти
+	std::vector<bot> bots;
 
-	//перем≥щенн€ гравц€
-	void update_player_position(float);
-	//ст≥льба гравц€
-	void shooting_player();
-
-	//онвленн€ позиц≥њ камери
-	void update_camera_position();
-	//загрузка св≥ту
-	bool load_world(std::string);
-	//перев≥рка перетину гравц€
-	void check_players_crossing(creature& pl);
-	//рух пуль
-	void move_bullets(float alpha);
-
-	void update_bot_position(float alpha);
-	void shooting_bot();
+	//снар€ди €к≥ попали в ц≥ль
+	std::vector<bullet> u_bullets;
+	//найб≥льш част≥ м≥сц€ з гравц€ми
+	std::vector<glm::ivec2> u_bots;
 private:
-	world() = default;
-
-	input& inp = input::instance();
 	settings& set = settings::instance();
+
+	bool status{ false };
+	glm::ivec2 size_world;
+	glm::ivec2 size_thermal_matrix_1;
+	std::string name_world;
+
+	void save_thermal_matrix_1();
+	void save_thermal_matrix_2();
 };
 
