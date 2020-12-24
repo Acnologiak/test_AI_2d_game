@@ -76,6 +76,7 @@ bool MyFramework::Tick()
 		//перевірка якщо гравець труп
 		if (g_data.my_world.bots[set.bot_number_for_game].alive == false and set.spectator_mode == false)
 		{
+			restart_game();
 			set.spectator_mode = true;
 		}
 
