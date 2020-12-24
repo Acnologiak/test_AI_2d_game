@@ -72,7 +72,7 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 					}
 					else
 					{
-						k = (float)(matrix[i.x][i.y].sum + thermal_matrix[n_p.x][n_p.y]) / (float)(z * (matrix[i.x][i.y].n_steps + 1));
+						/*k = (float)(matrix[i.x][i.y].sum + thermal_matrix[n_p.x][n_p.y]) / (float)(z * (matrix[i.x][i.y].n_steps + 1));
 
 						bool b = true;
 						glm::ivec2 g_1{ i.x, i.y };
@@ -106,7 +106,7 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 
 								v_2.push_back(n_p);
 							}
-						}
+						}*/
 					}
 				}
 			}
@@ -125,7 +125,7 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 					}
 					else
 					{
-						bool b = true;
+						/*bool b = true;
 						glm::ivec2 g_1{ i.x, i.y };
 						while (true)
 						{
@@ -157,7 +157,7 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 
 								v_2.push_back(n_p);
 							}
-						}
+						}*/
 					}
 				}
 			}
@@ -176,7 +176,7 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 					}
 					else
 					{
-						bool b = true;
+						/*bool b = true;
 						glm::ivec2 g_1{ i.x, i.y };
 						while (true)
 						{
@@ -208,7 +208,7 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 
 								v_2.push_back(n_p);
 							}
-						}
+						}*/
 					}
 				}
 			}
@@ -227,7 +227,7 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 					}
 					else
 					{
-						bool b = true;
+						/*bool b = true;
 						glm::ivec2 g_1{ i.x, i.y };
 						while (true)
 						{
@@ -259,7 +259,7 @@ std::list<glm::ivec2> bot_logic::find_way(glm::ivec2 p1, glm::ivec2 p2, int** th
 
 								v_2.push_back(n_p);
 							}
-						}
+						}*/
 					}
 				}
 			}
