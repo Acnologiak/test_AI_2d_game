@@ -6,7 +6,7 @@
 
 void create_thermal_map()
 {
-	glm::ivec2 size{ 128, 128 };
+	glm::ivec2 size{ 64, 64 };
 
 	char** map;
 	map = new char* [size.x];

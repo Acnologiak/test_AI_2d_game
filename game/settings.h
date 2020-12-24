@@ -15,7 +15,7 @@ public:
 	//режим швидкого навчання покишо не робочий
 	bool learning_mode{ false };
 	//кількість епох
-	int n_epoch{ 10 };
+	int n_epoch{ 50 };
 	//розмір епохи в мілісекундах
 	int size_epoch{ 10000 };
 
@@ -51,7 +51,7 @@ public:
 	unsigned int time_between_shots{ 500 };
 
 	//радіус видимості
-	int r_visible_area{ 8 };
+	int r_visible_area{ 7 };
 	//коефіціент зростання для пошуку шляху
 	int find_direction_viewing_e_increase{ 1 };
 	//радіус навчання для переміщення
@@ -60,20 +60,20 @@ public:
 	int e_direction_viewing_learning{ 20 };
 
 	//радіус навчання для переміщення
-	int r_learning{ 10 };
+	int r_learning{ 8 };
 	//коефіціент навчання для переміщення
-	int e_learning{ 20 };
+	int e_learning{ 10 };
 	//максимум теплової карти 
 	int thermal_map_max{ 128 };
 	//мінімум теплової карти 
 	int thermal_map_min{ -128 };
 
 	//похибка при пошуці оптимальної точки призначення
-	int error_destination{ 60 };
+	int error_destination{ 1 };
 	//радіус пошуку потимальної точки
 	int find_way_r{ 6 };
 	//коефіціент зростання для пошуку шляху
-	int find_way_e_increase{ 12 };
+	int find_way_e_increase{ 10 };
 	//коефіціент для алгоритму пошуку шляху
 	float find_way_z{ 100 };
 
