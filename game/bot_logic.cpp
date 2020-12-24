@@ -535,6 +535,7 @@ void bot_logic::shooting_bot(bot& bob, float t)
 		b.current_position = b.start_position;
 		b.direction_movement = -glm::normalize(bob.bot_position - g_data.my_world.bots[bob.focusing_bot].bot_position);
 
+		g_data.my_world.u_bots.push_back(bob.chunk);
 		g_data.my_world.u_bots.push_back(g_data.my_world.bots[bob.focusing_bot].chunk);
 		bob.bullets.push_back(b);
 		bob.last_time_shot = t;

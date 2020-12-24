@@ -10,21 +10,21 @@ public:
 	static settings& instance();
 
 	//назва світу
-	std::string name_world{ "3" };
+	std::string name_world{ "1" };
 
 	//режим швидкого навчання покишо не робочий
 	bool learning_mode{ false };
 	//кількість епох
 	int n_epoch{ 10 };
 	//розмір епохи в мілісекундах
-	int size_epoch{ 1000 };
+	int size_epoch{ 10000 };
 
 	//режим глядача
-	bool spectator_mode{ true };
+	bool spectator_mode{ false };
 	// теплова карта
 	bool thermal_map{ true };
 	//номер бота для старту гри
-	int bot_number_for_game{ 1 };
+	int bot_number_for_game{ 0 };
 	//швидкість камери
 	float cam_speed{ 1000 };
 
@@ -60,20 +60,20 @@ public:
 	int e_direction_viewing_learning{ 20 };
 
 	//радіус навчання для переміщення
-	int r_learning{ 13 };
+	int r_learning{ 10 };
 	//коефіціент навчання для переміщення
-	int e_learning{ 13 };
+	int e_learning{ 20 };
 	//максимум теплової карти 
 	int thermal_map_max{ 128 };
 	//мінімум теплової карти 
 	int thermal_map_min{ -128 };
 
 	//похибка при пошуці оптимальної точки призначення
-	int error_destination{ 4 };
+	int error_destination{ 60 };
 	//радіус пошуку потимальної точки
-	int find_way_r{ 25 };
+	int find_way_r{ 6 };
 	//коефіціент зростання для пошуку шляху
-	int find_way_e_increase{ 10 };
+	int find_way_e_increase{ 12 };
 	//коефіціент для алгоритму пошуку шляху
 	float find_way_z{ 100 };
 

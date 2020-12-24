@@ -28,7 +28,7 @@ void game_data::update_thermal_matrix_1()
 
 	normalize_update_thermal_matrix_1();
 }
-#include <iostream>
+
 void game_data::normalize_update_thermal_matrix_1()
 {
 	glm::ivec2 t_m_1_size = my_world.get_size_thermal_matrix_1();
