@@ -10,13 +10,13 @@ public:
 	static settings& instance();
 
 	//назва світу
-	std::string name_world{ "3" };
+	std::string name_world{ "1" };
 
 	//режим швидкого навчання покишо не робочий
-	bool learning_mode{ true };
+	bool learning_mode{ false };
 	//кількість епох
 	int n_epoch{ 10 };
-	//розмір епохи
+	//розмір епохи в мілісекундах
 	int size_epoch{ 1000 };
 
 	//режим глядача
