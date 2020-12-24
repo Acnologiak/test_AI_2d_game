@@ -2,18 +2,28 @@
 
 #include "glm/glm.hpp"
 
+#include <string>
 
 class settings
 {
 public:
 	static settings& instance();
 
+	//назва світу
+	std::string name_world{ "1" };
+
+	//режим швидкого навчання покишо не робочий
+	bool learning_mode{ false };
+	//кількість епох
+	int n_epoch{ 10 };
+
+
 	//режим глядача
 	bool spectator_mode{ false };
 	// теплова карта
 	bool thermal_map{ false };
 	//номер бота для старту гри
-	int bot_number_for_game{ 0 };
+	int bot_number_for_game{ 1 };
 	//швидкість камери
 	float cam_speed{ 1000 };
 

@@ -33,7 +33,10 @@ private:
 	//час між оновленнями
 	unsigned int delta_time = 0;
 	//час між кадрами
-	float alpha = 0;
+	float alpha{ 0.033 };
+
+	//кількість епох
+	int n_epoch{ 0 };
 
 	//оновлення часу між кадрами
 	void update_alpha();
@@ -43,4 +46,5 @@ private:
 	void shooting(float);
 	void restart_game();
 	bool check_end_game();
+
 };

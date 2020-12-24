@@ -546,6 +546,9 @@ void bot_logic::shooting_bot(bot& bob, float t)
 		v2 = g_data.my_world.bots[bob.focusing_bot].direction_viewing;
 		if ((v1.x * v2.x + v1.y * v2.y) < 0)
 		{
+			/*std::cout << v1.x << " " << v1.y << std::endl;
+			std::cout << v2.x << " " << v2.y << std::endl;
+			std::cout << std::endl;*/
 			bob.status = 1;
 			
 			glm::ivec2 world_size = g_data.my_world.get_size_world();

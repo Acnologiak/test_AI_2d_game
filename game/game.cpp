@@ -10,7 +10,7 @@ void MyFramework::PreInit(int& width, int& height, bool& fullscreen)
 
 bool MyFramework::Init()
 {
-	g_data.my_world.load_world("1");
+	g_data.my_world.load_world(set.name_world);
 	if (g_data.my_world.get_status() == false)
 	{
 		return false;
@@ -41,42 +41,75 @@ void MyFramework::Close()
 
 bool MyFramework::Tick()
 {
-	//кінець гри?
-	if (check_end_game() == true)
+	if (set.learning_mode == true)
 	{
-		restart_game();
-	}
+		//кінець гри?
+		if (check_end_game() == true)
+		{
+			restart_game();
+			n_epoch++;
 
-	//оновлення позиції камери
-	if (set.spectator_mode == true)
-	{
-		w_rendering.update_camera_pos_spectator(alpha);
+			if (n_epoch == set.n_epoch)
+			{
+				return true;
+			}
+			std::cout << n_epoch << std::endl;
+		}
+		std::cout << n_epoch << std::endl;
+
+		//операції з ботом
+		move_bots(alpha);
+		shooting(alpha);
+		b_logic.check_crossing_bots();
+	
+
+		return false;
 	}
 	else
 	{
-		w_rendering.update_camera_pos_pl();
-	}
+		//кінець гри?
+		if (check_end_game() == true)
+		{
+			restart_game();
+		}
 
-	//операції з ботом
-	move_bots(alpha);
-	shooting(alpha);
-	b_logic.check_crossing_bots();
-	//відображення світу
-	if (set.thermal_map == true)
-	{
-		w_rendering.draw_thermal_blocks();
-	}
-	else
-	{
-		w_rendering.draw_blocks();
-	}
-	w_rendering.draw_bots();
-	w_rendering.draw_bullets();
+		//перевірка якщо гравець труп
+		if (g_data.my_world.bots[set.bot_number_for_game].alive == false and set.spectator_mode == false)
+		{
+			set.spectator_mode = true;
+		}
 
-	//оновлення альфа
-	update_alpha();
+		//оновлення позиції камери
+		if (set.spectator_mode == true)
+		{
+			w_rendering.update_camera_pos_spectator(alpha);
+		}
+		else
+		{
+			w_rendering.update_camera_pos_pl();
+		}
 
-    return false;
+		//операції з ботом
+		move_bots(alpha);
+		shooting(alpha);
+		b_logic.check_crossing_bots();
+		//відображення світу
+		if (set.thermal_map == true)
+		{
+			w_rendering.draw_thermal_blocks();
+		}
+		else
+		{
+			w_rendering.draw_blocks();
+		}
+		w_rendering.draw_bots();
+		w_rendering.draw_bullets();
+
+		//оновлення альфа
+		update_alpha();
+
+		return false;
+	}
 }
 
 void MyFramework::onMouseMove(int x, int y, int xrelative, int yrelative)
