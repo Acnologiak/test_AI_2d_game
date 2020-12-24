@@ -6,7 +6,7 @@
 
 void create_thermal_map()
 {
-	glm::ivec2 size{ 4 * 4, 4 * 4 };
+	glm::ivec2 size{ 128, 128 };
 
 	char** map;
 	map = new char* [size.x];
@@ -15,7 +15,7 @@ void create_thermal_map()
 		map[i] = new char[size.y];
 		for (int j = 0; j < size.y; j++)
 		{
-			map[i][j] = 0;
+			map[i][j] = rand()%16-8;
 		}
 	}
 
