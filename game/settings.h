@@ -9,9 +9,9 @@ public:
 	static settings& instance();
 
 	//режим глядача
-	bool spectator_mode{ true };
+	bool spectator_mode{ false };
 	// теплова карта
-	bool thermal_map{ true };
+	bool thermal_map{ false };
 	//номер бота для старту гри
 	int bot_number_for_game{ 0 };
 	//швидкість камери
