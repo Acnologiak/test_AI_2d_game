@@ -20,9 +20,9 @@ public:
 	int size_epoch{ 10000 };
 
 	//режим глядача
-	bool spectator_mode{ false };
+	bool spectator_mode{ true };
 	// теплова карта
-	bool thermal_map{ true };
+	bool thermal_map{ false };
 	//номер бота для старту гри
 	int bot_number_for_game{ 0 };
 	//швидкість камери
