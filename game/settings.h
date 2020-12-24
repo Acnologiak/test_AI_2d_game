@@ -10,7 +10,7 @@ public:
 	static settings& instance();
 
 	//назва світу
-	std::string name_world{ "1" };
+	std::string name_world{ "3" };
 
 	//режим швидкого навчання покишо не робочий
 	bool learning_mode{ false };
