@@ -16,7 +16,8 @@ public:
 	bool learning_mode{ true };
 	//кількість епох
 	int n_epoch{ 10 };
-
+	//розмір епохи
+	int size_epoch{ 1000 };
 
 	//режим глядача
 	bool spectator_mode{ true };

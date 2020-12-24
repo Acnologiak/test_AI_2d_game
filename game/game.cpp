@@ -44,10 +44,11 @@ bool MyFramework::Tick()
 	if (set.learning_mode == true)
 	{
 		//кінець гри?
-		if (check_end_game() == true)
+		if (check_end_game() == true or (getTickCount() - e_time) > set.size_epoch)
 		{
 			restart_game();
 			n_epoch++;
+			e_time = getTickCount();
 
 			if (n_epoch == set.n_epoch)
 			{
@@ -55,7 +56,7 @@ bool MyFramework::Tick()
 			}
 			std::cout << n_epoch << std::endl;
 		}
-		std::cout << n_epoch << std::endl;
+
 
 		//операції з ботом
 		move_bots(alpha);

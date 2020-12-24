@@ -37,6 +37,8 @@ private:
 
 	//кількість епох
 	int n_epoch{ 0 };
+	//час для навчання
+	int e_time{ 0 };
 
 	//оновлення часу між кадрами
 	void update_alpha();
