@@ -15,7 +15,7 @@ public:
 	//режим швидкого навчання покишо не робочий
 	bool learning_mode{ true };
 	//кількість епох
-	int n_epoch{ 10 };
+	int n_epoch{ 1000 };
 	//розмір епохи
 	int size_epoch{ 1000 };
 
