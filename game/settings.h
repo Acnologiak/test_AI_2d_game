@@ -20,7 +20,7 @@ public:
 	int size_epoch{ 10000 };
 
 	//режим глядача
-	bool spectator_mode{ true };
+	bool spectator_mode{ false };
 	// теплова карта
 	bool thermal_map{ false };
 	//номер бота для старту гри
@@ -69,7 +69,7 @@ public:
 	int thermal_map_min{ -128 };
 
 	//похибка при пошуці оптимальної точки призначення
-	int error_destination{ 1 };
+	int error_destination{ 40 };
 	//радіус пошуку потимальної точки
 	int find_way_r{ 6 };
 	//коефіціент зростання для пошуку шляху
