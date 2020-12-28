@@ -78,7 +78,8 @@ bool MyFramework::Tick()
 		if (g_data.my_world.bots[set.bot_number_for_game].alive == false and set.spectator_mode == false)
 		{
 			restart_game();
-			set.spectator_mode = true;
+
+			//set.spectator_mode = true;
 		}
 
 		//оновлення позиції камери
