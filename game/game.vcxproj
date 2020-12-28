@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\AI_2D_game\game\my_sprite.cpp" />
     <ClCompile Include="bot.cpp" />
     <ClCompile Include="bot_logic.cpp" />
     <ClCompile Include="game.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="world_rendering.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\AI_2D_game\game\my_sprite.h" />
     <ClInclude Include="bot.h" />
     <ClInclude Include="bot_logic.h" />
     <ClInclude Include="Framework.h" />

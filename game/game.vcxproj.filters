@@ -72,6 +72,9 @@
     <ClCompile Include="learning_functions.cpp">
       <Filter>Source Files\utilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AI_2D_game\game\my_sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="world.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="learning_functions.h">
       <Filter>Header Files\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AI_2D_game\game\my_sprite.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
